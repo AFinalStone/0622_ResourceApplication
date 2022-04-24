@@ -17,6 +17,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.io.File;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
+import java.util.Arrays;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -66,7 +69,20 @@ public class MainActivity extends AppCompatActivity {
         });
         TextView textView = new TextView(this);
         textView.setText(R.string.text_hello);
+        testByteCode();
         testResource();
+    }
+
+    private void testByteCode() {
+        ByteBuffer b = ByteBuffer.wrap(new byte[4]);
+        b.order(ByteOrder.BIG_ENDIAN);
+        b.putInt(0x01020304);
+        System.out.println("Big-Endian:    " + Arrays.toString(b.array()));
+
+        b = ByteBuffer.wrap(new byte[4]);
+        b.order(ByteOrder.LITTLE_ENDIAN);
+        b.putInt(0x01020304);
+        System.out.println("Little-Endian: " + Arrays.toString(b.array()));
     }
 
     private void testResource() {
