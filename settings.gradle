@@ -16,3 +16,4 @@ rootProject.name = "Android0203_Plugin_ResourceApplication"
 include ':app'
 include ':Plugin_Resource'
 include ':Plugin_Tools'
+include ':ParseResourceArsc'
