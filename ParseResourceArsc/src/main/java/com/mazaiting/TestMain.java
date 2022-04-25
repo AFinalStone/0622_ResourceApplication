@@ -1,5 +1,8 @@
 package com.mazaiting;
 
+import com.mazaiting.type.Res02StringPoolHeader;
+import com.mazaiting.type.Res01TableHeader;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -13,10 +16,15 @@ public class TestMain {
     private final static String ARSC_FILE_OUT_PATH = "ParseResourceArsc/res/source_01.arsc";
 
     public static void main(String[] args) throws IOException {
-        //读取文件
-        File fileInput = new File(ARSC_FILE_IN_PATH);
-        byte[] arscArray = getArscFromFile(fileInput);
-        ParseResourceUtil.parseResTableHeaderChunk(arscArray);
+        //资源表头
+        byte[] arscArray = getArscFromFile(new File(ARSC_FILE_IN_PATH));
+        Res01TableHeader resTableHeader = ParseResourceUtil.parseResTableHeaderChunk(arscArray);
+        byte[] byteResTableHeader = resTableHeader.toBytes();
+        Res02StringPoolHeader resStringPoolHeader = ParseResourceUtil.parseResStringPoolChunk(arscArray);
+        System.out.println("ResStringPoolHeader===" + resStringPoolHeader);
+        byte[] byteResStringPoolHeader = resStringPoolHeader.toBytes();
+
+//        writeFile(arscArray01, new File(ARSC_FILE_OUT_PATH));
     }
 
     public static void writeFile(byte[] data, File out) throws IOException {

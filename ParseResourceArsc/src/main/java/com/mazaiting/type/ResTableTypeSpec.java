@@ -39,7 +39,7 @@ public class ResTableTypeSpec {
 	/**
 	 * Chunk的头部信息结构
 	 */
-	public ResChunkHeader header;
+	public Res00ChunkHeader header;
 	/**
 	 * 标识资源的Type ID,Type ID是指资源的类型ID。资源的类型有animator、anim、color、drawable、layout、menu、raw、string和xml等等若干种，每一种都会被赋予一个ID。
 	 */
@@ -58,7 +58,7 @@ public class ResTableTypeSpec {
 	public int entryCount;
 	
 	public ResTableTypeSpec() {
-		header = new ResChunkHeader();
+		header = new Res00ChunkHeader();
 	}
 	
 	@Override

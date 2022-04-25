@@ -43,7 +43,7 @@ public class ResTableType {
 	/**
 	 * Chunk的头部信息结构
 	 */
-	public ResChunkHeader header;
+	public Res00ChunkHeader header;
 	/**
 	 * 标识资源的Type ID
 	 */
@@ -70,7 +70,7 @@ public class ResTableType {
 	public ResTableConfig resConfig;
 	
 	public ResTableType() {
-		header = new ResChunkHeader();
+		header = new Res00ChunkHeader();
 		resConfig = new ResTableConfig();
 	}
 	

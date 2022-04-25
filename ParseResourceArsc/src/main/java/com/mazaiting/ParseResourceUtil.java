@@ -1,13 +1,11 @@
 package com.mazaiting;
 
-import java.util.ArrayList;
-
-import com.mazaiting.type.ResChunkHeader;
-import com.mazaiting.type.ResStringPoolHeader;
+import com.mazaiting.type.Res00ChunkHeader;
+import com.mazaiting.type.Res01TableHeader;
+import com.mazaiting.type.Res02StringPoolHeader;
 import com.mazaiting.type.ResStringPoolRef;
 import com.mazaiting.type.ResTableConfig;
 import com.mazaiting.type.ResTableEntry;
-import com.mazaiting.type.ResTableHeader;
 import com.mazaiting.type.ResTableMap;
 import com.mazaiting.type.ResTableMapEntry;
 import com.mazaiting.type.ResTablePackage;
@@ -15,6 +13,8 @@ import com.mazaiting.type.ResTableRef;
 import com.mazaiting.type.ResTableType;
 import com.mazaiting.type.ResTableTypeSpec;
 import com.mazaiting.type.ResValue;
+
+import java.util.ArrayList;
 
 public class ParseResourceUtil {
     /**
@@ -61,25 +61,26 @@ public class ParseResourceUtil {
      *
      * @param arscArray arsc二进制数据
      */
-    public static void parseResTableHeaderChunk(byte[] arscArray) {
-        ResTableHeader resTableHeader = new ResTableHeader();
+    public static Res01TableHeader parseResTableHeaderChunk(byte[] arscArray) {
+        Res01TableHeader resTableHeader = new Res01TableHeader();
         resTableHeader.header = parseResChunkHeader(arscArray, 0);
         resStringPoolChunkOffset = resTableHeader.header.headerSize;
         // 解析PackageCount个数（一个apk可能包含多个Package资源）
         byte[] packageCountByte = Util.copyByte(arscArray, resTableHeader.header.getHeaderSize(), 4);
         resTableHeader.packageCount = Util.byte2int(packageCountByte);
-//		System.out.println(resTableHeader.toString());
+        return resTableHeader;
     }
+
 
     /**
      * 解析Resource.arsc文件中所有字符串内容
      *
      * @param arscArray 二进制数据
      */
-    public static void parseResStringPoolChunk(byte[] arscArray) {
-        ResStringPoolHeader stringPoolHeader = parseStringPoolChunk(arscArray, resStringList, resStringPoolChunkOffset);
+    public static Res02StringPoolHeader parseResStringPoolChunk(byte[] arscArray) {
+        Res02StringPoolHeader stringPoolHeader = parseStringPoolChunk(arscArray, resStringList, resStringPoolChunkOffset);
         packageChunkOffset = resStringPoolChunkOffset + stringPoolHeader.header.size;
-//		System.out.println(stringPoolHeader.toString());
+        return stringPoolHeader;
     }
 
     /**
@@ -136,7 +137,7 @@ public class ParseResourceUtil {
      * @param arscArray 二进制数据
      */
     public static void parseTypeStringPoolChunk(byte[] arscArray) {
-        ResStringPoolHeader resStringPoolHeader = parseStringPoolChunk(arscArray, typeStringList, typeStringPoolChunkOffset);
+        Res02StringPoolHeader resStringPoolHeader = parseStringPoolChunk(arscArray, typeStringList, typeStringPoolChunkOffset);
 //		System.out.println(resStringPoolHeader.toString());
     }
 
@@ -146,7 +147,7 @@ public class ParseResourceUtil {
      * @param arscArray 二进制数据
      */
     public static void parseKeyStringPoolChunk(byte[] arscArray) {
-        ResStringPoolHeader stringPoolHeader = parseStringPoolChunk(arscArray, keyStringList, keyStringPoolChunkOffset);
+        Res02StringPoolHeader stringPoolHeader = parseStringPoolChunk(arscArray, keyStringList, keyStringPoolChunkOffset);
         // 解析key字符串之后，需要赋值给resType的偏移值，后续还需继续解析
         resTypeOffset = keyStringPoolChunkOffset + stringPoolHeader.header.size;
     }
@@ -506,8 +507,8 @@ public class ParseResourceUtil {
      * @param start     开始位置
      * @return
      */
-    private static ResChunkHeader parseResChunkHeader(byte[] arscArray, int start) {
-        ResChunkHeader header = new ResChunkHeader();
+    private static Res00ChunkHeader parseResChunkHeader(byte[] arscArray, int start) {
+        Res00ChunkHeader header = new Res00ChunkHeader();
 
         // 解析头部类型
         byte[] typeByte = Util.copyByte(arscArray, start, 2);
@@ -532,8 +533,8 @@ public class ParseResourceUtil {
      * @param stringOffset 字符串偏移值
      * @return
      */
-    private static ResStringPoolHeader parseStringPoolChunk(byte[] arscArray, ArrayList<String> stringList, int stringOffset) {
-        ResStringPoolHeader stringPoolHeader = new ResStringPoolHeader();
+    private static Res02StringPoolHeader parseStringPoolChunk(byte[] arscArray, ArrayList<String> stringList, int stringOffset) {
+        Res02StringPoolHeader stringPoolHeader = new Res02StringPoolHeader();
         // 解析头部信息
         stringPoolHeader.header = parseResChunkHeader(arscArray, stringOffset);
 
@@ -618,7 +619,7 @@ public class ParseResourceUtil {
      * @return
      */
     public static boolean isTypeSpec(byte[] arscArray) {
-        ResChunkHeader header = parseResChunkHeader(arscArray, resTypeOffset);
+        Res00ChunkHeader header = parseResChunkHeader(arscArray, resTypeOffset);
 
         return header.type == 0x0202 ? true : false;
     }
