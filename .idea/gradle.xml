@@ -12,6 +12,7 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/ParseResourceArsc" />
+            <option value="$PROJECT_DIR$/ParseResourceArsc02" />
             <option value="$PROJECT_DIR$/Plugin_Resource" />
             <option value="$PROJECT_DIR$/Plugin_Tools" />
             <option value="$PROJECT_DIR$/app" />

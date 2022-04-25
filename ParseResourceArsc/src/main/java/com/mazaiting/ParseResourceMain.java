@@ -40,27 +40,27 @@ public class ParseResourceMain {
 		System.out.println("===================================");
 		System.out.println();
 		
-		/**
-		 * 解析正文内容
-		 * 正文内容就是ResValue值，也就是开始构建public.xml中的条目信息，和类型的分离不同的xml文件
-		 */
-		int resCount = 0;
-		while (!ParseResourceUtil.isEnd(arscArray.length)) {
-			resCount++;
-			boolean isSpec = ParseResourceUtil.isTypeSpec(arscArray);
-			if (isSpec) {
-				System.out.println("parse restype spec chunk ...");
-				ParseResourceUtil.parseResTypeSpec(arscArray);
-				System.out.println("===================================");
-				System.out.println();
-			} else {				
-				System.out.println("parse restype info chunk ...");
-				ParseResourceUtil.parseResTypeInfo(arscArray);
-				System.out.println("===================================");
-				System.out.println();
-			}
-		}
-		System.out.println("res count: " + resCount);
+//		/**
+//		 * 解析正文内容
+//		 * 正文内容就是ResValue值，也就是开始构建public.xml中的条目信息，和类型的分离不同的xml文件
+//		 */
+//		int resCount = 0;
+//		while (!ParseResourceUtil.isEnd(arscArray.length)) {
+//			resCount++;
+//			boolean isSpec = ParseResourceUtil.isTypeSpec(arscArray);
+//			if (isSpec) {
+//				System.out.println("parse restype spec chunk ...");
+//				ParseResourceUtil.parseResTypeSpec(arscArray);
+//				System.out.println("===================================");
+//				System.out.println();
+//			} else {
+//				System.out.println("parse restype info chunk ...");
+//				ParseResourceUtil.parseResTypeInfo(arscArray);
+//				System.out.println("===================================");
+//				System.out.println();
+//			}
+//		}
+//		System.out.println("res count: " + resCount);
 		
 	}
 	
