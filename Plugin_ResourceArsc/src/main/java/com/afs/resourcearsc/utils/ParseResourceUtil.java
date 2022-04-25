@@ -4,6 +4,11 @@ import com.afs.resourcearsc.bean.Res00ChunkHeader;
 import com.afs.resourcearsc.bean.Res01TableHeader;
 import com.afs.resourcearsc.bean.Res02StringPool;
 import com.afs.resourcearsc.bean.Res02StringPoolHeader;
+import com.afs.resourcearsc.bean.Res03TablePackage;
+
+import java.nio.ByteBuffer;
+import java.nio.charset.Charset;
+import java.util.ArrayList;
 
 public class ParseResourceUtil {
 
@@ -110,20 +115,134 @@ public class ParseResourceUtil {
      * 解析字符串常量池
      *
      * @param arscArray
-     * @param stringStart
+     * @param offSet
      * @param stringCount
-     * @param styleStart
      * @param styleCount
      * @return
      */
-    public static Res02StringPool parseResStringPool(byte[] arscArray, int stringStart, int stringCount, int styleStart, int styleCount) {
+    public static Res02StringPool parseResStringPool(byte[] arscArray, int offSet, int stringCount, int styleCount) {
         //解析ChunkHeader
         Res02StringPool res02StringPool = new Res02StringPool();
-        byte[] stringByte = copyByte(arscArray, stringStart, 4 * stringCount);
-        res02StringPool.string = new String(stringByte);
-        byte[] styleByte = copyByte(arscArray, styleStart, 4 * styleCount);
-        res02StringPool.string = new String(styleByte);
+        int startIndex = offSet;
+        //字符串
+        ArrayList<String> strings = new ArrayList<String>();
+        int index = 0;
+        while (index < stringCount) {
+            byte[] stringSizeByte = copyByte(arscArray, startIndex, 2);
+            int stringSize = (stringSizeByte[1] & 0x7F);
+            if (0 != stringSize) {
+                String val = "";
+                try {
+                    val = new String(copyByte(arscArray, startIndex + 2, stringSize), "UTF-8");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                strings.add(val);
+            } else {
+                strings.add("");
+            }
+            startIndex += (stringSize + 3);
+            index++;
+        }
+        res02StringPool.string = strings;
+        //样式串
+        startIndex = offSet + stringCount * 4;
+        ArrayList<String> styles = new ArrayList<String>();
+        index = 0;
+        while (index < styleCount) {
+            byte[] styleSizeByte = copyByte(arscArray, startIndex, 2);
+            int styleSize = (styleSizeByte[1] & 0x7F);
+            if (0 != styleSize) {
+                String val = "";
+                try {
+                    val = new String(copyByte(arscArray, startIndex + 2, styleSize), "UTF-8");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                styles.add(val);
+            } else {
+                styles.add("");
+            }
+            startIndex += (styleSize + 3);
+            index++;
+        }
+        res02StringPool.style = styles;
         return res02StringPool;
     }
 
+
+    /**
+     * 解析资源Package块
+     *
+     * @param arscArray
+     * @param offSet
+     * @return
+     */
+    public static Res03TablePackage parseResTablePackage(byte[] arscArray, int offSet) {
+        //解析ChunkHeader
+        int startIndex = offSet;
+        Res03TablePackage res03TablePackage = new Res03TablePackage();
+        res03TablePackage.header = parseResChunkHeader(arscArray, offSet);
+
+        //id
+        startIndex = startIndex + res03TablePackage.header.getHeaderSize();
+        byte[] idByte = copyByte(arscArray, startIndex, 4);
+        res03TablePackage.id = Byte2ObjectUtil.byteArray2Int_Little_Endian(idByte);
+
+        //name
+        startIndex = startIndex + idByte.length;
+        byte[] nameByte = copyByte(arscArray, startIndex, 128 * 2);
+        Charset cs = Charset.forName("UTF-8");
+        ByteBuffer bb = ByteBuffer.allocate(nameByte.length);
+        bb.put(nameByte);
+        bb.flip();
+        res03TablePackage.name = cs.decode(bb).array();
+
+        //typeStrings
+        startIndex = startIndex + nameByte.length;
+        byte[] typeStringsByte = copyByte(arscArray, startIndex, 4);
+        res03TablePackage.typeStrings = Byte2ObjectUtil.byteArray2Int_Little_Endian(typeStringsByte);
+
+        //lastPublicType
+        startIndex = startIndex + typeStringsByte.length;
+        byte[] lastPublicTypeByte = copyByte(arscArray, startIndex, 4);
+        res03TablePackage.lastPublicType = Byte2ObjectUtil.byteArray2Int_Little_Endian(lastPublicTypeByte);
+
+        //keyStrings
+        startIndex = startIndex + lastPublicTypeByte.length;
+        byte[] keyStringsByte = copyByte(arscArray, startIndex, 4);
+        res03TablePackage.keyStrings = Byte2ObjectUtil.byteArray2Int_Little_Endian(keyStringsByte);
+
+        //lastPublicKey
+        startIndex = startIndex + keyStringsByte.length;
+        byte[] lastPublicKeyByte = copyByte(arscArray, startIndex, 4);
+        res03TablePackage.lastPublicKey = Byte2ObjectUtil.byteArray2Int_Little_Endian(lastPublicKeyByte);
+
+        return res03TablePackage;
+    }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

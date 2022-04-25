@@ -19,12 +19,7 @@ public class TestMain {
         //资源表头
         byte[] arscArray = getArscFromFile(new File(ARSC_FILE_IN_PATH));
         Res01TableHeader resTableHeader = ParseResourceUtil.parseResTableHeaderChunk(arscArray);
-        byte[] byteResTableHeader = resTableHeader.toBytes();
         Res02StringPoolHeader resStringPoolHeader = ParseResourceUtil.parseResStringPoolChunk(arscArray);
-        System.out.println("ResStringPoolHeader===" + resStringPoolHeader);
-        byte[] byteResStringPoolHeader = resStringPoolHeader.toBytes();
-
-//        writeFile(arscArray01, new File(ARSC_FILE_OUT_PATH));
     }
 
     public static void writeFile(byte[] data, File out) throws IOException {

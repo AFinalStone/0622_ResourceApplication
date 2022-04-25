@@ -139,7 +139,7 @@ public class ArscParser implements ResConst {
                 }
                 break;
             case RES_TABLE_PACKAGE_TYPE:
-                readPackage(in);
+//                readPackage(in);
             }
             in.position(chunk.location + chunk.size);
         }

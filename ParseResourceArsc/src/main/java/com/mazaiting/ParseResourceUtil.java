@@ -562,20 +562,20 @@ public class ParseResourceUtil {
 
         // 获取字符串内容的索引数组和样式内容的索引数组
         int[] stringIndexAry = new int[stringPoolHeader.stringCount];
-        int[] styleIndexAry = new int[stringPoolHeader.styleCount];
+//        int[] styleIndexAry = new int[stringPoolHeader.styleCount];
 
         int stringIndex = offset + 20;
         for (int i = 0; i < stringIndexAry.length; i++) {
             stringIndexAry[i] = Util.byte2int(Util.copyByte(arscArray, stringIndex + i * 4, 4));
         }
 
-        int styleIndex = stringIndex + 4 * styleIndexAry.length;
-        for (int i = 0; i < styleIndexAry.length; i++) {
-            styleIndexAry[i] = Util.byte2int(Util.copyByte(arscArray, styleIndex + i * 4, 4));
-        }
+//        int styleIndex = stringIndex + 4 * stringIndexAry.length;
+//        for (int i = 0; i < styleIndexAry.length; i++) {
+//            styleIndexAry[i] = Util.byte2int(Util.copyByte(arscArray, styleIndex + i * 4, 4));
+//        }
 
         // 每个字符串的头两个字节的最后一个字节是字符串的长度
-        int stringContentIndex = styleIndex + stringPoolHeader.styleCount * 4;
+        int stringContentIndex = stringIndex + 4 * stringIndexAry.length + stringPoolHeader.styleCount * 4;
         int index = 0;
         while (index < stringPoolHeader.stringCount) {
             byte[] stringSizeByte = Util.copyByte(arscArray, stringContentIndex, 2);

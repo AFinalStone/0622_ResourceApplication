@@ -3,6 +3,7 @@ package com.afs.resourcearsc;
 import com.afs.resourcearsc.bean.Res01TableHeader;
 import com.afs.resourcearsc.bean.Res02StringPool;
 import com.afs.resourcearsc.bean.Res02StringPoolHeader;
+import com.afs.resourcearsc.bean.Res03TablePackage;
 import com.afs.resourcearsc.utils.ParseResourceUtil;
 
 import java.io.ByteArrayOutputStream;
@@ -17,7 +18,8 @@ public class TestMain {
     private final static String ARSC_FILE_OUT_PATH = "Plugin_ResourceArsc/res/resources_01.arsc";
 
     private static class StartIndexInfo {
-        private static int mResStringPoolChunkOffset;//字符串常量池起点
+        private static int ResStringPoolChunkOffset;//字符串常量池块起点
+        private static int ResTablePackageOffset;//资源包块起点
 
     }
 
@@ -31,24 +33,32 @@ public class TestMain {
         System.out.println();
 
         //字符创常量池头
-        StartIndexInfo.mResStringPoolChunkOffset = resTableHeader.getHeaderSize();
-        Res02StringPoolHeader resStringPoolHeader = ParseResourceUtil.parseResStringPoolHeader(arscArray, StartIndexInfo.mResStringPoolChunkOffset);
+        StartIndexInfo.ResStringPoolChunkOffset = resTableHeader.getHeaderSize();
+        Res02StringPoolHeader resStringPoolHeader = ParseResourceUtil.parseResStringPoolHeader(arscArray, StartIndexInfo.ResStringPoolChunkOffset);
         byte[] byteResStringPoolHeader = resStringPoolHeader.toBytes();
         System.out.println();
         System.out.println(resStringPoolHeader);
         System.out.println();
 
         //字符串常量池
-        int stringStart = StartIndexInfo.mResStringPoolChunkOffset + resStringPoolHeader.stringsStart;
-        int stringCount = resStringPoolHeader.stringCount;
-        int styleStart = StartIndexInfo.mResStringPoolChunkOffset + resStringPoolHeader.stylesStart;
-        int styleCount = resStringPoolHeader.styleCount;
-        Res02StringPool res02StringPool = ParseResourceUtil.parseResStringPool(arscArray, stringStart, stringCount, styleStart, styleCount);
+        int stringStart = StartIndexInfo.ResStringPoolChunkOffset + resStringPoolHeader.getHeaderSize() + resStringPoolHeader.stringCount * 4 + resStringPoolHeader.styleCount * 4;
+        Res02StringPool res02StringPool = ParseResourceUtil.parseResStringPool(arscArray, stringStart, resStringPoolHeader.stringCount, resStringPoolHeader.styleCount);
         byte[] byteResStringPool = res02StringPool.toBytes();
         System.out.println();
         System.out.println(res02StringPool);
         System.out.println();
-//        writeFile(byteResTableHeader, new File(ARSC_FILE_OUT_PATH));
+
+        //资源包块起点
+        StartIndexInfo.ResTablePackageOffset = StartIndexInfo.ResStringPoolChunkOffset + resStringPoolHeader.getHeaderSize();
+        Res03TablePackage res03TablePackage = ParseResourceUtil.parseResTablePackage(arscArray, StartIndexInfo.ResTablePackageOffset);
+        byte[] byteResTablePackage = res03TablePackage.toBytes();
+        System.out.println();
+        System.out.println(res03TablePackage);
+        System.out.println();
+
+//        ParseResourceUtil.parseTypeStringPoolChunk(arscArray);
+
+
     }
 
     /**
