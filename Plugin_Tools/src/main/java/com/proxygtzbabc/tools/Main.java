@@ -9,7 +9,7 @@ import java.io.RandomAccessFile;
  */
 public class Main {
     public static String SIGN_FINE_NAME = "guotang";  //
-    public static String FILENAME = "builder/app_02-debug";
+    public static String FILENAME = "builder/app_01";
 
     public static void main(String[] args) throws Exception {
         // 复制resGuard混淆后的apk包 复制到指定的位置

@@ -42,4 +42,6 @@ public class ResStringPoolSpan {
 	public String toString(){
 		return "name:"+name.toString()+",firstChar:"+firstChar+",lastChar:"+lastChar;
 	}
+
+
 }

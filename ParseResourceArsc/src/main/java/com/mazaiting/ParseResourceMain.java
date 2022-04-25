@@ -53,7 +53,7 @@ public class ParseResourceMain {
 				ParseResourceUtil.parseResTypeSpec(arscArray);
 				System.out.println("===================================");
 				System.out.println();
-			} else {				
+			} else {
 				System.out.println("parse restype info chunk ...");
 				ParseResourceUtil.parseResTypeInfo(arscArray);
 				System.out.println("===================================");
