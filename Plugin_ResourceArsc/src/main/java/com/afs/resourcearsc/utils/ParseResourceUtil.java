@@ -1,13 +1,12 @@
 package com.afs.resourcearsc.utils;
 
-import com.afs.resourcearsc.bean.Res00ChunkHeader;
-import com.afs.resourcearsc.bean.Res01TableHeader;
-import com.afs.resourcearsc.bean.Res02StringPool;
-import com.afs.resourcearsc.bean.Res02StringPoolHeader;
-import com.afs.resourcearsc.bean.Res03TablePackage;
+import com.afs.resourcearsc.bean.ResChunkHeader;
+import com.afs.resourcearsc.bean.ResTable;
+import com.afs.resourcearsc.bean.ResTableHeader;
+import com.afs.resourcearsc.bean.ResTablePackage;
+import com.afs.resourcearsc.bean.ResTableStringPool;
+import com.afs.resourcearsc.bean.ResTableStringPoolHeader;
 
-import java.nio.ByteBuffer;
-import java.nio.charset.Charset;
 import java.util.ArrayList;
 
 public class ParseResourceUtil {
@@ -27,6 +26,18 @@ public class ParseResourceUtil {
         return byteType;
     }
 
+    private static ResTable parseResTable(byte[] arscArray) {
+        int offset = 0;
+        ResChunkHeader resChunkHeader = parseResChunkHeader(arscArray, offset);
+        //header
+        ResTableHeader resTableHeader = new ResTableHeader();
+        resTableHeader.header = resChunkHeader;
+
+
+        ResTable resTable = new ResTable();
+        return resTable;
+    }
+
     /**
      * 解析资源头部信息
      * 所有的Chunk公共的头部信息
@@ -35,8 +46,8 @@ public class ParseResourceUtil {
      * @param offSet    开始位置
      * @return
      */
-    private static Res00ChunkHeader parseResChunkHeader(byte[] arscArray, int offSet) {
-        Res00ChunkHeader header = new Res00ChunkHeader();
+    public static ResChunkHeader parseResChunkHeader(byte[] arscArray, int offSet) {
+        ResChunkHeader header = new ResChunkHeader();
         // 解析头部类型
         int startIndex = offSet;
         byte[] byteType = copyByte(arscArray, startIndex, 2);
@@ -59,13 +70,16 @@ public class ParseResourceUtil {
      *
      * @param arscArray arsc二进制数据
      */
-    public static Res01TableHeader parseResTableHeaderChunk(byte[] arscArray) {
+    public static ResTableHeader parseResTableHeaderChunk(byte[] arscArray, int offSet) {
         //解析ChunkHeader
-        Res01TableHeader resTableHeader = new Res01TableHeader();
-        resTableHeader.header = parseResChunkHeader(arscArray, 0);
-        // 解析PackageCount个数（一个apk可能包含多个Package资源）
-        byte[] packageCountByte = copyByte(arscArray, 0 + resTableHeader.header.getHeaderSize(), 4);
-        resTableHeader.packageCount = Byte2ObjectUtil.byteArray2Int_Little_Endian(packageCountByte);
+        ResChunkHeader resChunkHeader = parseResChunkHeader(arscArray, offSet);
+        //解析PackageCount个数（一个apk可能包含多个Package资源）
+        byte[] packageCountByte = copyByte(arscArray, 0 + resChunkHeader.getHeaderSize(), 4);
+        int packageCount = Byte2ObjectUtil.byteArray2Int_Little_Endian(packageCountByte);
+        //创建ResTableHeader
+        ResTableHeader resTableHeader = new ResTableHeader();
+        resTableHeader.header = resChunkHeader;
+        resTableHeader.packageCount = packageCount;
         return resTableHeader;
     }
 
@@ -76,10 +90,10 @@ public class ParseResourceUtil {
      * @param offSet
      * @return
      */
-    public static Res02StringPoolHeader parseResStringPoolHeader(byte[] arscArray, int offSet) {
+    public static ResTableStringPoolHeader parseResStringPoolHeader(byte[] arscArray, int offSet) {
         //解析ChunkHeader
         int startIndex = offSet;
-        Res02StringPoolHeader res02StringPoolHeader = new Res02StringPoolHeader();
+        ResTableStringPoolHeader res02StringPoolHeader = new ResTableStringPoolHeader();
         res02StringPoolHeader.header = parseResChunkHeader(arscArray, offSet);
 
         //stringCount
@@ -100,7 +114,7 @@ public class ParseResourceUtil {
         //stringsStart
         startIndex = startIndex + flagsByte.length;
         byte[] stringsStartByte = copyByte(arscArray, startIndex, 4);
-        res02StringPoolHeader.stringsStart = Byte2ObjectUtil.byteArray2Int_Little_Endian(flagsByte);
+        res02StringPoolHeader.stringsStart = Byte2ObjectUtil.byteArray2Int_Little_Endian(stringsStartByte);
 
         //stylesStart
         startIndex = startIndex + stringsStartByte.length;
@@ -120,9 +134,9 @@ public class ParseResourceUtil {
      * @param styleCount
      * @return
      */
-    public static Res02StringPool parseResStringPool(byte[] arscArray, int offSet, int stringCount, int styleCount) {
+    public static ResTableStringPool parseResStringPool(byte[] arscArray, int offSet, int stringCount, int styleCount) {
         //解析ChunkHeader
-        Res02StringPool res02StringPool = new Res02StringPool();
+        ResTableStringPool resTableStringPool = new ResTableStringPool();
         int startIndex = offSet;
         //字符串
         ArrayList<String> strings = new ArrayList<String>();
@@ -144,13 +158,16 @@ public class ParseResourceUtil {
             startIndex += (stringSize + 3);
             index++;
         }
-        res02StringPool.string = strings;
+        resTableStringPool.stringList = strings;
         //样式串
         startIndex = offSet + stringCount * 4;
         ArrayList<String> styles = new ArrayList<String>();
         index = 0;
         while (index < styleCount) {
             byte[] styleSizeByte = copyByte(arscArray, startIndex, 2);
+            //20 = 0x14 = 1_0100
+            //127 = 0x7F = 0111_1111
+            //
             int styleSize = (styleSizeByte[1] & 0x7F);
             if (0 != styleSize) {
                 String val = "";
@@ -166,8 +183,8 @@ public class ParseResourceUtil {
             startIndex += (styleSize + 3);
             index++;
         }
-        res02StringPool.style = styles;
-        return res02StringPool;
+        resTableStringPool.styleList = styles;
+        return resTableStringPool;
     }
 
 
@@ -178,47 +195,43 @@ public class ParseResourceUtil {
      * @param offSet
      * @return
      */
-    public static Res03TablePackage parseResTablePackage(byte[] arscArray, int offSet) {
+    public static ResTablePackage parseResTablePackage(byte[] arscArray, int offSet) {
         //解析ChunkHeader
         int startIndex = offSet;
-        Res03TablePackage res03TablePackage = new Res03TablePackage();
-        res03TablePackage.header = parseResChunkHeader(arscArray, offSet);
+        ResTablePackage resTablePackage = new ResTablePackage();
+        resTablePackage.header = parseResChunkHeader(arscArray, offSet);
 
         //id
-        startIndex = startIndex + res03TablePackage.header.getHeaderSize();
+        startIndex = startIndex + resTablePackage.header.getHeaderSize();
         byte[] idByte = copyByte(arscArray, startIndex, 4);
-        res03TablePackage.id = Byte2ObjectUtil.byteArray2Int_Little_Endian(idByte);
+        resTablePackage.id = Byte2ObjectUtil.byteArray2Int_Little_Endian(idByte);
 
         //name
         startIndex = startIndex + idByte.length;
         byte[] nameByte = copyByte(arscArray, startIndex, 128 * 2);
-        Charset cs = Charset.forName("UTF-8");
-        ByteBuffer bb = ByteBuffer.allocate(nameByte.length);
-        bb.put(nameByte);
-        bb.flip();
-        res03TablePackage.name = cs.decode(bb).array();
+        resTablePackage.name = new String(nameByte);
 
         //typeStrings
         startIndex = startIndex + nameByte.length;
         byte[] typeStringsByte = copyByte(arscArray, startIndex, 4);
-        res03TablePackage.typeStrings = Byte2ObjectUtil.byteArray2Int_Little_Endian(typeStringsByte);
+        resTablePackage.typeStrings = Byte2ObjectUtil.byteArray2Int_Little_Endian(typeStringsByte);
 
         //lastPublicType
         startIndex = startIndex + typeStringsByte.length;
         byte[] lastPublicTypeByte = copyByte(arscArray, startIndex, 4);
-        res03TablePackage.lastPublicType = Byte2ObjectUtil.byteArray2Int_Little_Endian(lastPublicTypeByte);
+        resTablePackage.lastPublicType = Byte2ObjectUtil.byteArray2Int_Little_Endian(lastPublicTypeByte);
 
         //keyStrings
         startIndex = startIndex + lastPublicTypeByte.length;
         byte[] keyStringsByte = copyByte(arscArray, startIndex, 4);
-        res03TablePackage.keyStrings = Byte2ObjectUtil.byteArray2Int_Little_Endian(keyStringsByte);
+        resTablePackage.keyStrings = Byte2ObjectUtil.byteArray2Int_Little_Endian(keyStringsByte);
 
         //lastPublicKey
         startIndex = startIndex + keyStringsByte.length;
         byte[] lastPublicKeyByte = copyByte(arscArray, startIndex, 4);
-        res03TablePackage.lastPublicKey = Byte2ObjectUtil.byteArray2Int_Little_Endian(lastPublicKeyByte);
+        resTablePackage.lastPublicKey = Byte2ObjectUtil.byteArray2Int_Little_Endian(lastPublicKeyByte);
 
-        return res03TablePackage;
+        return resTablePackage;
     }
 }
 

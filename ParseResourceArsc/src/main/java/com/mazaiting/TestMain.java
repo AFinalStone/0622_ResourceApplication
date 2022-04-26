@@ -1,6 +1,7 @@
 package com.mazaiting;
 
 import com.mazaiting.type.Res02StringPoolHeader;
+import com.mazaiting.type.Res02StringPoolHeader;
 import com.mazaiting.type.Res01TableHeader;
 
 import java.io.ByteArrayOutputStream;

@@ -1,10 +1,55 @@
 package com.afs.resourcearsc.utils;
 
+import java.nio.ByteBuffer;
+import java.nio.CharBuffer;
+import java.nio.charset.Charset;
+
 /**
  * @author syl
  * @time 2022/4/25 13:41
  */
 public class Byte2ObjectUtil {
+
+    //byte 与 int 的相互转换
+    public static byte intToByte(int x) {
+        return (byte) x;
+    }
+
+    public static int byteToInt(byte b) {
+        //Java 总是把 byte 当做有符处理；我们可以通过将其和 0xFF 进行二进制与得到它的无符值
+        return b & 0xFF;
+    }
+
+//    //byte 数组与 int 的相互转换
+//    public static int byteArrayToInt(byte[] b) {
+//        return b[3] & 0xFF |
+//                (b[2] & 0xFF) << 8 |
+//                (b[1] & 0xFF) << 16 |
+//                (b[0] & 0xFF) << 24;
+//    }
+//
+//    public static byte[] intToByteArray(int a) {
+//        return new byte[]{
+//                (byte) ((a >> 24) & 0xFF),
+//                (byte) ((a >> 16) & 0xFF),
+//                (byte) ((a >> 8) & 0xFF),
+//                (byte) (a & 0xFF)
+//        };
+//    }
+//
+//    //byte 数组与 long 的相互转换
+//    public static byte[] longToBytes(long x) {
+//        ByteBuffer buffer = ByteBuffer.allocate(8);
+//        buffer.putLong(0, x);
+//        return buffer.array();
+//    }
+//
+//    public static long bytesToLong(byte[] bytes) {
+//        ByteBuffer buffer = ByteBuffer.allocate(8);
+//        buffer.put(bytes, 0, bytes.length);
+//        buffer.flip();//need flip
+//        return buffer.getLong();
+//    }
 
     /**
      * 字节数组转 short，小端
@@ -294,6 +339,37 @@ public class Byte2ObjectUtil {
     }
 
     /**
+     * char转byte
+     *
+     * @param chars
+     * @return
+     */
+    public static byte[] charArrayByteArray(char[] chars) {
+        Charset cs = Charset.forName("UTF-8");
+        CharBuffer cb = CharBuffer.allocate(chars.length);
+        cb.put(chars);
+        cb.flip();
+        ByteBuffer bb = cs.encode(cb);
+        return bb.array();
+    }
+
+    /**
+     * byte转char
+     *
+     * @param bytes
+     * @return
+     */
+    private char[] ByteArray2CharArray(byte[] bytes) {
+        Charset cs = Charset.forName("UTF-8");
+        ByteBuffer bb = ByteBuffer.allocate(bytes.length);
+        bb.put(bytes);
+        bb.flip();
+        CharBuffer cb = cs.decode(bb);
+
+        return cb.array();
+    }
+
+    /**
      * HexString 转字节数组
      */
     public static byte[] hexString2ByteArray(String hexString) {
@@ -331,6 +407,14 @@ public class Byte2ObjectUtil {
         byte[] byteValue;
         if (object instanceof Short) {
             byteValue = short2ByteArray_Little_Endian((Short) object);
+            return byteValue;
+        }
+        if (object instanceof char[]) {
+            byteValue = charArrayByteArray((char[]) object);
+            return byteValue;
+        }
+        if (object instanceof byte[]) {
+            byteValue = (byte[]) object;
             return byteValue;
         }
         if (object instanceof IObjToBytes) {

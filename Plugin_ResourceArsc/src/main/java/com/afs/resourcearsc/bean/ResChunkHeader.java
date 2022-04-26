@@ -3,6 +3,7 @@ package com.afs.resourcearsc.bean;
 
 import com.afs.resourcearsc.utils.Byte2ObjectUtil;
 import com.afs.resourcearsc.utils.IObjToBytes;
+import com.afs.resourcearsc.utils.ParseResourceUtil;
 
 /**
  * Resource.arsc文件格式是由一系列的chunk构成，每一个chunk均包含ResChunk_header
@@ -28,7 +29,7 @@ import com.afs.resourcearsc.utils.IObjToBytes;
  *
  * @author mazaiting
  */
-public class Res00ChunkHeader implements IObjToBytes {
+public class ResChunkHeader implements IObjToBytes {
     /**
      * 当前这个chunk的类型
      */
@@ -41,6 +42,13 @@ public class Res00ChunkHeader implements IObjToBytes {
      * 当前chunk的大小
      */
     public int size;
+
+    public ResChunkHeader() {
+    }
+
+    public ResChunkHeader(byte[] arscArray) {
+        ResChunkHeader resChunkHeader = ParseResourceUtil.parseResChunkHeader(arscArray, 0);
+    }
 
     /**
      * 获取Chunk Header所占字节数
@@ -61,4 +69,5 @@ public class Res00ChunkHeader implements IObjToBytes {
         Object[] objects = {type, headerSize, size};
         return Byte2ObjectUtil.object2ByteArray_Little_Endian(objects);
     }
+
 }

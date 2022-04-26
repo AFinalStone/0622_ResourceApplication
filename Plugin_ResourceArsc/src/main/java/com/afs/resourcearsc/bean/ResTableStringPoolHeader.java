@@ -1,45 +1,9 @@
 package com.afs.resourcearsc.bean;
 
-
 import com.afs.resourcearsc.utils.Byte2ObjectUtil;
 import com.afs.resourcearsc.utils.IObjToBytes;
 
-/**
- * 资源索引表头部的是资源项的值字符串资源池，这个字符串资源池包含了所有的在资源包里面所定义的资源项的值字符串
- * 一个字符串可以对应多个ResStringPool_span和一个ResStringPool_ref
- * struct ResStringPool_header
- * {
- * struct ResChunk_header header;
- * <p>
- * // Number of strings in this pool (number of uint32_t indices that follow
- * // in the data).
- * uint32_t stringCount;
- * <p>
- * // Number of style span arrays in the pool (number of uint32_t indices
- * // follow the string indices).
- * uint32_t styleCount;
- * <p>
- * // Flags.
- * enum {
- * // If set, the string index is sorted by the string values (based
- * // on strcmp16()).
- * SORTED_FLAG = 1<<0,
- * <p>
- * // String pool is encoded in UTF-8
- * UTF8_FLAG = 1<<8
- * };
- * uint32_t flags;
- * <p>
- * // Index from header of the string data.
- * uint32_t stringsStart;
- * <p>
- * // Index from header of the style data.
- * uint32_t stylesStart;
- * };
- *
- * @author mazaiting
- */
-public class Res02StringPoolHeader implements IObjToBytes {
+public class ResTableStringPoolHeader implements IObjToBytes {
     /**
      * 排序标记
      */
@@ -51,7 +15,7 @@ public class Res02StringPoolHeader implements IObjToBytes {
     /**
      * 标准的Chunk头部信息结构
      */
-    public Res00ChunkHeader header;
+    public ResChunkHeader header;
     /**
      * 字符串的个数
      */
@@ -73,8 +37,8 @@ public class Res02StringPoolHeader implements IObjToBytes {
      */
     public int stylesStart;
 
-    public Res02StringPoolHeader() {
-        header = new Res00ChunkHeader();
+    public ResTableStringPoolHeader() {
+        header = new ResChunkHeader();
     }
 
     /**
@@ -88,7 +52,7 @@ public class Res02StringPoolHeader implements IObjToBytes {
 
     @Override
     public String toString() {
-        return "header: " + header.toString() + "\n" + "stringCount: " + stringCount + "\n" + "styleCount: " + styleCount
+        return "header: " + "\n" + header.toString() + "\n" + "stringCount: " + stringCount + "\n" + "styleCount: " + styleCount
                 + "\n" + "flags: " + flags + "\n" + "stringStart: " + stringsStart + "\n" + "stylesStart: " + stylesStart;
     }
 

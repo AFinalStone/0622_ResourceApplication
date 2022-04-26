@@ -2,34 +2,26 @@ package com.afs.resourcearsc.bean;
 
 import com.afs.resourcearsc.utils.Byte2ObjectUtil;
 import com.afs.resourcearsc.utils.IObjToBytes;
+import com.afs.resourcearsc.utils.ParseResourceUtil;
 
 /**
- * Resources.arsc文件的第一个结构是资源索引表头部
- * 描述Resources.arsc文件的大小和资源包数量
- * <p>
- * struct ResTable_header
- * {
- * struct ResChunk_header header;
- * <p>
- * // The number of ResTable_package structures.
- * uint32_t packageCount;
- * };
+ * Resource.arsc表的头部信息
  *
- * @author mazaiting
+ * @author syl
+ * @time 2022/4/26 11:54
  */
-public class Res01TableHeader implements IObjToBytes {
+public class ResTableHeader implements IObjToBytes{
     /**
      * 标准的Chunk头部信息格式
      */
-    public Res00ChunkHeader header;
+    public ResChunkHeader header;
     /**
      * 被编译的资源包个数
      * Android 中一个apk可能包含多个资源包，默认情况下都只有一个就是应用的包名所在的资源包
      */
     public int packageCount;
 
-    public Res01TableHeader() {
-        header = new Res00ChunkHeader();
+    public ResTableHeader() {
     }
 
     /**
@@ -43,7 +35,7 @@ public class Res01TableHeader implements IObjToBytes {
 
     @Override
     public String toString() {
-        return "header:" + header.toString() + "\n" + "packageCount:" + packageCount;
+        return "header:" + "\n" + header.toString() + "\n" + "packageCount:" + packageCount;
     }
 
     @Override
@@ -51,4 +43,5 @@ public class Res01TableHeader implements IObjToBytes {
         Object[] objects = {header, packageCount};
         return Byte2ObjectUtil.object2ByteArray_Little_Endian(objects);
     }
+
 }
