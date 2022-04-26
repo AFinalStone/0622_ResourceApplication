@@ -8,7 +8,7 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
 public class ParseResourceMain {
-	private final static String FILE_PATH = "ParseResourceArsc/res/source.apk";
+	private final static String FILE_PATH = "ParseResourceArsc/res/app-release-unsigned.apk";
 //	private final static String FILE_PATH = "ParseResourceArsc/res/resources.arsc";
 	public static void main(String[] args) {
 		

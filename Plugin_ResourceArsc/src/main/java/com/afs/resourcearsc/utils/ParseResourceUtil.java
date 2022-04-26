@@ -93,35 +93,35 @@ public class ParseResourceUtil {
     public static ResTableStringPoolHeader parseResStringPoolHeader(byte[] arscArray, int offSet) {
         //解析ChunkHeader
         int startIndex = offSet;
-        ResTableStringPoolHeader res02StringPoolHeader = new ResTableStringPoolHeader();
-        res02StringPoolHeader.header = parseResChunkHeader(arscArray, offSet);
+        ResTableStringPoolHeader resStringPoolHeader = new ResTableStringPoolHeader();
+        resStringPoolHeader.header = parseResChunkHeader(arscArray, offSet);
 
         //stringCount
-        startIndex = startIndex + res02StringPoolHeader.header.getHeaderSize();
+        startIndex = startIndex + resStringPoolHeader.header.getHeaderSize();
         byte[] stringCountByte = copyByte(arscArray, startIndex, 4);
-        res02StringPoolHeader.stringCount = Byte2ObjectUtil.byteArray2Int_Little_Endian(stringCountByte);
+        resStringPoolHeader.stringCount = Byte2ObjectUtil.byteArray2Int_Little_Endian(stringCountByte);
 
         //styleCount
         startIndex = startIndex + stringCountByte.length;
         byte[] styleCountByte = copyByte(arscArray, startIndex, 4);
-        res02StringPoolHeader.styleCount = Byte2ObjectUtil.byteArray2Int_Little_Endian(styleCountByte);
+        resStringPoolHeader.styleCount = Byte2ObjectUtil.byteArray2Int_Little_Endian(styleCountByte);
 
         //flags
         startIndex = startIndex + styleCountByte.length;
         byte[] flagsByte = copyByte(arscArray, startIndex, 4);
-        res02StringPoolHeader.flags = Byte2ObjectUtil.byteArray2Int_Little_Endian(flagsByte);
+        resStringPoolHeader.flags = Byte2ObjectUtil.byteArray2Int_Little_Endian(flagsByte);
 
         //stringsStart
         startIndex = startIndex + flagsByte.length;
         byte[] stringsStartByte = copyByte(arscArray, startIndex, 4);
-        res02StringPoolHeader.stringsStart = Byte2ObjectUtil.byteArray2Int_Little_Endian(stringsStartByte);
+        resStringPoolHeader.stringsStart = Byte2ObjectUtil.byteArray2Int_Little_Endian(stringsStartByte);
 
         //stylesStart
         startIndex = startIndex + stringsStartByte.length;
         byte[] stylesStartByte = copyByte(arscArray, startIndex, 4);
-        res02StringPoolHeader.stylesStart = Byte2ObjectUtil.byteArray2Int_Little_Endian(stylesStartByte);
+        resStringPoolHeader.stylesStart = Byte2ObjectUtil.byteArray2Int_Little_Endian(stylesStartByte);
 
-        return res02StringPoolHeader;
+        return resStringPoolHeader;
     }
 
 

@@ -31,7 +31,7 @@ public class ResTableStringPool implements IObjToBytes {
                 styleBuilder.append(item).append("\n");
             }
         }
-        return "stringPoolHeader:" + "\n" + "string:" + "\n" + stringBuilder.toString()
+        return "string:" + "\n" + stringBuilder.toString()
                 + "\n" + "style:" + styleBuilder.toString();
     }
 
