@@ -22,13 +22,15 @@ public class ResTableStringPool implements IObjToBytes {
         StringBuilder stringBuilder = new StringBuilder();
         if (stringList != null) {
             for (String item : stringList) {
-                stringBuilder.append(item).append("\n");
+                if (!item.isEmpty())
+                    stringBuilder.append(item).append("\n");
             }
         }
         StringBuilder styleBuilder = new StringBuilder();
         if (styleList != null) {
             for (String item : styleList) {
-                styleBuilder.append(item).append("\n");
+                if (!item.isEmpty())
+                    styleBuilder.append(item).append("\n");
             }
         }
         return "string:" + "\n" + stringBuilder.toString()

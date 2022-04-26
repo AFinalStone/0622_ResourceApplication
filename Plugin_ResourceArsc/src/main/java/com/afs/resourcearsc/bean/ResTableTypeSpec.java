@@ -35,10 +35,6 @@ public class ResTableTypeSpec implements IObjToBytes {
      * 资源项数组块相对头部的偏移值
      */
     public int entriesStart;
-    /**
-     * 指向一个ResTable_config，用来描述配置信息，地区，语言，分辨率等
-     */
-    public ResTableConfig resConfig;
 
     /**
      * 获取当前资源类型所占的字节数
