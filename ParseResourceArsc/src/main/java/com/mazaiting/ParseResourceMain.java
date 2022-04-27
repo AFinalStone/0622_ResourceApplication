@@ -8,12 +8,12 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
 public class ParseResourceMain {
-	private final static String FILE_PATH = "ParseResourceArsc/res/app-release-unsigned.apk";
-//	private final static String FILE_PATH = "ParseResourceArsc/res/resources.arsc";
+//	private final static String FILE_PATH = "ParseResourceArsc/res/app-release.apk";
+	private final static String FILE_PATH = "ParseResourceArsc/res/resources_01.arsc";
 	public static void main(String[] args) {
 		
-		byte[] arscArray = getArscFromApk(FILE_PATH);
-//		byte[] arscArray = getArscFromFile(FILE_PATH);
+//		byte[] arscArray = getArscFromApk(FILE_PATH);
+		byte[] arscArray = getArscFromFile(FILE_PATH);
 		
 		System.out.println("parse restable header ...");
 		ParseResourceUtil.parseResTableHeaderChunk(arscArray);

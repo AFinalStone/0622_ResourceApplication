@@ -2,7 +2,6 @@ package com.afs.resourcearsc.bean;
 
 import com.afs.resourcearsc.utils.Byte2ObjectUtil;
 import com.afs.resourcearsc.utils.IObjToBytes;
-import com.afs.resourcearsc.utils.ParseResourceUtil;
 
 /**
  * Resource.arsc表的头部信息
@@ -10,7 +9,7 @@ import com.afs.resourcearsc.utils.ParseResourceUtil;
  * @author syl
  * @time 2022/4/26 11:54
  */
-public class ResTableHeader implements IObjToBytes{
+public class ResTableHeader implements IObjToBytes {
     /**
      * 标准的Chunk头部信息格式
      */

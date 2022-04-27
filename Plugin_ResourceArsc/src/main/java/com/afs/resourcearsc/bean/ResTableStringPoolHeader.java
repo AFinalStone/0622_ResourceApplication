@@ -36,6 +36,10 @@ public class ResTableStringPoolHeader implements IObjToBytes {
      * 字符串样式块相对于其头部的距离
      */
     public int stylesStart;
+    /**
+     * 字符串偏移数组和Style偏移数组的总长度
+     */
+    public byte[] byteStringOffSet;
 
     public ResTableStringPoolHeader() {
         header = new ResChunkHeader();
@@ -59,6 +63,10 @@ public class ResTableStringPoolHeader implements IObjToBytes {
     @Override
     public byte[] toBytes() {
         Object[] objects = {header, stringCount, styleCount, flags, stringsStart, stylesStart};
-        return Byte2ObjectUtil.object2ByteArray_Little_Endian(objects);
+        byte[] byteStringPoolHeader = Byte2ObjectUtil.object2ByteArray_Little_Endian(objects);
+        byte[] byteStringPool = new byte[byteStringOffSet.length + byteStringPoolHeader.length];
+        System.arraycopy(byteStringPoolHeader, 0, byteStringPool, 0, byteStringPoolHeader.length);
+        System.arraycopy(byteStringOffSet, 0, byteStringPool, byteStringPoolHeader.length, byteStringOffSet.length);
+        return byteStringPool;
     }
 }

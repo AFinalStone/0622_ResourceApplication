@@ -31,6 +31,7 @@ public class ResTableTypeSpec implements IObjToBytes {
      * 本类型资源项个数，指名称相同的资源项的个数
      */
     public int entryCount;
+    public int[] entryArray;
     /**
      * 资源项数组块相对头部的偏移值
      */
@@ -47,8 +48,14 @@ public class ResTableTypeSpec implements IObjToBytes {
 
     @Override
     public String toString() {
-        return "header: " + header.toString() + ",id: " + id + ",res0: " + res0 + ",res1: " + res1 +
-                ",entryCount: " + entryCount + ",entriesStart: " + entriesStart;
+        StringBuilder stringBuilder = new StringBuilder();
+        if (entryArray != null) {
+            for (Integer item : entryArray) {
+                stringBuilder.append(item).append(" ");
+            }
+        }
+        return "header: " + "\n" + header.toString() + "\n" + "id: " + id + "\n" + "res0: " + res0 + "\n" + "res1: " + res1
+                + "\n" + "entryCount: " + entryCount + "\n" + "entryArray: " + stringBuilder.toString() + "\n" + "entriesStart: " + entriesStart;
     }
 
     @Override

@@ -1,10 +1,10 @@
 package com.afs.resourcearsc;
 
 import com.afs.resourcearsc.bean.ResTableHeader;
-import com.afs.resourcearsc.bean.ResTablePackage;
+import com.afs.resourcearsc.bean.ResTablePackageHeader;
 import com.afs.resourcearsc.bean.ResTableStringPool;
-import com.afs.resourcearsc.bean.ResTableStringPoolHeader;
-import com.afs.resourcearsc.utils.ParseResourceUtil;
+import com.afs.resourcearsc.bean.ResTableTypeSpec;
+import com.afs.resourcearsc.parse.ResourceParseManager;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -19,139 +19,116 @@ public class TestMain {
 
 
     public static void main(String[] args) throws IOException {
-        test02();
+        test01();
     }
 
     private static void test01() throws IOException {
         //资源表头
         int offSet = 0;
         byte[] arscArray = getArscFromFile(new File(ARSC_FILE_IN_PATH));
-        ResTableHeader resTableHeader = ParseResourceUtil.parseResTableHeaderChunk(arscArray, offSet);
+        ResTableHeader resTableHeader = ResourceParseManager.get().parseResTableHeaderChunk(arscArray, offSet);
         byte[] byteResTableHeader = resTableHeader.toBytes();
         System.out.println("resTableHeader----------------------------------");
         System.out.println(resTableHeader);
         System.out.println();
 
-        //字符创常量池头
-        offSet = resTableHeader.header.headerSize;
-        ResTableStringPoolHeader resStringPoolHeader = ParseResourceUtil.parseResStringPoolHeader(arscArray, offSet);
-
         //字符串常量池
-        offSet = offSet + resStringPoolHeader.getHeaderSize() + resStringPoolHeader.stringCount * 4 + resStringPoolHeader.styleCount * 4;
-        ResTableStringPool resStringPool = ParseResourceUtil.parseResStringPool(arscArray, offSet, resStringPoolHeader.stringCount, resStringPoolHeader.styleCount);
-
+        offSet = byteResTableHeader.length;
+        ResTableStringPool resStringPool = ResourceParseManager.get().parseResTableStringPool(arscArray, offSet);
         byte[] byteResStringPool = resStringPool.toBytes();
-        resStringPoolHeader.header.size = resStringPoolHeader.getHeaderSize() + byteResStringPool.length + resStringPoolHeader.stringCount * 4;
-        byte[] byteResStringPoolHeader = resStringPoolHeader.toBytes();
         System.out.println("resStringPool----------------------------------");
         System.out.println(resStringPool);
         System.out.println();
 
         //资源包Package块起点
-        offSet = resTableHeader.header.headerSize + resStringPoolHeader.header.size;
-        ResTablePackage resTablePackage = ParseResourceUtil.parseResTablePackage(arscArray, offSet);
-        byte[] byteResTablePackage = resTablePackage.toBytes();
+        offSet = offSet + byteResStringPool.length;
+        ResTablePackageHeader resTablePackageHeader = ResourceParseManager.get().parseResTablePackage(arscArray, offSet);
+        byte[] byteResTablePackage = resTablePackageHeader.toBytes();
         System.out.println("resTablePackage----------------------------------");
-        System.out.println(resTablePackage);
+        System.out.println(resTablePackageHeader);
         System.out.println();
+
         //Package_Type字符创常量池头
-        offSet = resTableHeader.header.headerSize + resStringPoolHeader.header.size + resTablePackage.typeStrings;
-        ResTableStringPool packageTypeStringPool = ParseResourceUtil.parseResStringPool(arscArray, offSet, resStringPoolHeader.stringCount, resStringPoolHeader.styleCount);
+        int typeOffSet = offSet + resTablePackageHeader.typeStrings;
+        ResTableStringPool packageTypeStringPool = ResourceParseManager.get().parseResTableStringPool(arscArray, typeOffSet);
         byte[] bytePackageTypeStringPool = packageTypeStringPool.toBytes();
         System.out.println("packageTypeStringPool----------------------------------");
         System.out.println(packageTypeStringPool);
         System.out.println();
+
         //Package_Key字符串常量池
-        offSet = resTableHeader.header.headerSize + resStringPoolHeader.header.size + resTablePackage.keyStrings;
-        ResTableStringPool packageKeyStringPool = ParseResourceUtil.parseResStringPool(arscArray, offSet, resStringPoolHeader.stringCount, resStringPoolHeader.styleCount);
+        int keyOffSet = offSet + resTablePackageHeader.keyStrings;
+        ResTableStringPool packageKeyStringPool = ResourceParseManager.get().parseResTableStringPool(arscArray, keyOffSet);
         byte[] bytePackageKeyStringPool = packageKeyStringPool.toBytes();
         System.out.println("packageKeyStringPool----------------------------------");
         System.out.println(packageKeyStringPool);
         System.out.println();
-        //Package的额外配置
-//        offSet = resTableHeader.header.headerSize + resStringPoolHeader.header.size + resTablePackage.header.size;
-//        ResTableTypeSpec resTableTypeSpec =
 
+        //Package_TypeSpecType
+        offSet = keyOffSet + packageKeyStringPool.stringPoolHeader.header.size;
+        ResTableTypeSpec resTableTypeSpec = ResourceParseManager.get().parseResTableTypeSpec(arscArray, offSet);
+        byte[] byteResTableTypeSpec = resTableTypeSpec.toBytes();
+        System.out.println("resTableTypeSpec----------------------------------");
+        System.out.println(resTableTypeSpec);
+        System.out.println();
 
-//        //添加到缓存
-//        int length = offSet + byteResStringPool.length;
-//        byte[] resultByteBuffer = new byte[length];
-//        offSet = 0;
-//        System.arraycopy(byteResTableHeader, 0, resultByteBuffer, offSet, byteResTableHeader.length);
-//        offSet = resTableHeader.header.headerSize;
-//        System.arraycopy(byteResStringPoolHeader, 0, resultByteBuffer, offSet, byteResStringPoolHeader.length);
-//        offSet = offSet + resStringPoolHeader.getHeaderSize() + resStringPoolHeader.stringCount * 4 + resStringPoolHeader.styleCount * 4;
-//        System.arraycopy(byteResStringPool, 0, resultByteBuffer, offSet, byteResStringPool.length);
-//
-//
-//        writeFile(resultByteBuffer, new File(ARSC_FILE_OUT_PATH));
     }
 
     private static void test02() throws IOException {
-        //资源表头
-        int offSet = 0;
-        byte[] arscArray = getArscFromFile(new File(ARSC_FILE_IN_PATH));
-        ResTableHeader resTableHeader = ParseResourceUtil.parseResTableHeaderChunk(arscArray, offSet);
-        System.out.println();
-        System.out.println(resTableHeader);
-        System.out.println();
-
-        //字符创常量池头
-        offSet = resTableHeader.header.headerSize;
-        ResTableStringPoolHeader resStringPoolHeader = ParseResourceUtil.parseResStringPoolHeader(arscArray, offSet);
-
-        //字符串常量池
-        offSet = offSet + resStringPoolHeader.getHeaderSize() + resStringPoolHeader.stringCount * 4 + resStringPoolHeader.styleCount * 4;
-        ResTableStringPool resStringPool = ParseResourceUtil.parseResStringPool(arscArray, offSet, resStringPoolHeader.stringCount, resStringPoolHeader.styleCount);
-
-        //修改字符串长度
-        for (int i = 0; i < resStringPool.stringList.size(); i++) {
-            if ("插件化测试".equals(resStringPool.stringList.get(i))) {
-                resStringPool.stringList.set(i, "插件化测试成功了");
-                break;
-            }
-        }
-        byte[] byteResStringPool = resStringPool.toBytes();
-
-        int resTableHeaderSize = resTableHeader.header.headerSize;
-        int oldResTableSize = resTableHeader.header.size;
-        int oldStringPoolHeaderSize = resStringPoolHeader.header.headerSize;
-        int oldStringPoolSize = resStringPoolHeader.header.size;
-
-        int newStringPoolSize = oldStringPoolHeaderSize + byteResStringPool.length + resStringPoolHeader.stringCount * 4;
-        int newResTableSize = oldResTableSize + newStringPoolSize - oldStringPoolSize;
-        resStringPoolHeader.header.size = newStringPoolSize;//新的字符串常量池长度
-        byte[] byteResStringPoolHeader = resStringPoolHeader.toBytes();
-        resTableHeader.header.size = newResTableSize;//新的文件长度
-        byte[] byteResTableHeader = resTableHeader.toBytes();
-
-        System.out.println();
-        System.out.println(resStringPool);
-        System.out.println();
-
-        //新的资源的后半部分
-//        byte[] realEndBytes = new byte[oldResTableSize - resTableHeaderSize - oldStringPoolSize];
-//        System.arraycopy(arscArray, resTableHeaderSize + oldStringPoolSize, realEndBytes, 0, realEndBytes.length);
-
-        //新的资源字节文件
-        byte[] realBytes = new byte[newResTableSize];
-        offSet = 0;
-        System.arraycopy(byteResTableHeader, 0, realBytes, offSet, byteResTableHeader.length);
-        offSet = resTableHeaderSize;
-        System.arraycopy(byteResStringPoolHeader, 0, realBytes, offSet, byteResStringPoolHeader.length);
-        //原始数据
-        offSet = offSet + resStringPoolHeader.getHeaderSize();
-        int len = resStringPoolHeader.stringCount * 4 + resStringPoolHeader.styleCount * 4;
-        System.arraycopy(arscArray, offSet, realBytes, offSet, len);
-        offSet = offSet + resStringPoolHeader.stringCount * 4 + resStringPoolHeader.styleCount * 4;
-        System.arraycopy(byteResStringPool, 0, realBytes, offSet, byteResStringPool.length);
-        offSet = offSet + byteResStringPool.length;
-        //原始数据
-        len = oldResTableSize - resTableHeaderSize - oldStringPoolSize;
-        System.arraycopy(arscArray, resTableHeaderSize + oldStringPoolSize, realBytes, offSet, len);
-
-
-        writeFile(realBytes, new File(ARSC_FILE_OUT_PATH));
+//        //资源表头
+//        int offSet = 0;
+//        byte[] arscArray = getArscFromFile(new File(ARSC_FILE_IN_PATH));
+//        ResTableHeader resTableHeader = ParseResourceUtil.parseResTableHeaderChunk(arscArray, offSet);
+//        byte[] byteResTableHeader = resTableHeader.toBytes();
+//        System.out.println("resTableHeader----------------------------------");
+//        System.out.println(resTableHeader);
+//        System.out.println();
+//
+//        //字符串常量池
+//        offSet = byteResTableHeader.length;
+//        ResTableStringPool resStringPool = ParseResourceUtil.parseResTableStringPool(arscArray, offSet);
+//        byte[] byteResStringPool = resStringPool.toBytes();
+//        System.out.println("resStringPool----------------------------------");
+//        System.out.println(resStringPool);
+//        System.out.println();
+//        for (int i = 0; i < resStringPool.stringList.size(); i++) {
+//            resStringPool.stringList.set(i, " ");
+//        }
+//        int resTableHeaderSize = resTableHeader.header.headerSize;
+//        int oldResTableSize = resTableHeader.header.size;
+//        int oldStringPoolSize = resStringPool.stringPoolHeader.header.size;
+//
+//        int newStringPoolSize = stringPoolHeaderSize + resStringPoolHeader.byteStringOffSet.length + byteResStringPool.length;
+//        int newResTableSize = oldResTableSize + newStringPoolSize - oldStringPoolSize;
+//
+//        resStringPoolHeader.header.size = newStringPoolSize;//新的字符串常量池长度
+//        byte[] byteResStringPoolHeader = resStringPoolHeader.toBytes();
+//        resTableHeader.header.size = newResTableSize;//新的文件长度
+//        byte[] byteResTableHeader = resTableHeader.toBytes();
+//
+//        System.out.println();
+//        System.out.println(resStringPool);
+//        System.out.println();
+//
+//        //创建一个新的资源字节文件
+//        byte[] realBytes = new byte[newResTableSize];
+//        //拷贝原始数据
+//        offSet = 0;
+//        System.arraycopy(byteResTableHeader, 0, realBytes, offSet, byteResTableHeader.length);
+//        offSet = resTableHeaderSize;
+//        System.arraycopy(byteResStringPoolHeader, 0, realBytes, offSet, byteResStringPoolHeader.length);
+//        //拷贝原始数据，字符串偏移数组和Style偏移数组
+//        offSet = resTableHeaderSize + stringPoolHeaderSize;
+//        System.arraycopy(resStringPoolHeader.byteStringOffSet, 0, realBytes, offSet, resStringPoolHeader.byteStringOffSet.length);
+//        //拷贝新的字符串常量池
+//        offSet = resTableHeaderSize + stringPoolHeaderSize + resStringPoolHeader.byteStringOffSet.length;
+//        System.arraycopy(byteResStringPool, 0, realBytes, offSet, byteResStringPool.length);
+//        //拷贝原始数据，从字符串常量池之后的所有内容
+//        offSet = resTableHeaderSize + stringPoolHeaderSize + resStringPoolHeader.byteStringOffSet.length + byteResStringPool.length;
+//        int len = newResTableSize - offSet;
+//        System.arraycopy(arscArray, resTableHeaderSize + oldStringPoolSize, realBytes, offSet, len);
+//
+//        writeFile(realBytes, new File(ARSC_FILE_OUT_PATH));
     }
 
     /**
@@ -187,6 +164,7 @@ public class TestMain {
     }
 
     public static void writeFile(byte[] data, File out) throws IOException {
+        out.setLastModified(0);
         FileOutputStream fos = new FileOutputStream(out);
         fos.write(data);
         fos.close();

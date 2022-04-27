@@ -1,0 +1,93 @@
+<resources>
+
+    <!--通用的TextView-->
+    <style name="UikitTextView">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/uikit_main_content_text_size</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:textColor">@color/uikit_text_main_content_color</item>
+        <item name="android:textColorHint">@color/uikit_text_hint_color</item>
+    </style>
+
+    <!--通用的EditText-->
+    <style name="UikitEditText" parent="UikitTextView">
+        <item name="android:textColorHint">@color/uikit_text_hint_color</item>
+    </style>
+
+    <!-- 无背景的普通输入框 -->
+    <style name="UikitEditText.Normal">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:minHeight">40dp</item>
+        <item name="android:background">@null</item>
+    </style>
+
+    <!--密码输入框-->
+    <style name="UikitEditText.Password">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:minHeight">40dp</item>
+        <item name="android:inputType">textPassword</item>
+        <item name="android:hint">@string/uikit_edit_text_input_password_hint</item>
+        <item name="android:maxLength">16</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:background">@null</item>
+    </style>
+
+    <!--手机号码输入框-->
+    <style name="UikitEditText.InputMobile">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:minHeight">40dp</item>
+        <item name="android:digits">@string/uikit_edit_text_input_mobile_digits_limit</item>
+        <item name="android:hint">@string/uikit_edit_text_input_mobile_hint</item>
+        <item name="android:maxLength">11</item>
+        <item name="android:textSize">@dimen/text_size_14</item>
+        <item name="android:inputType">numberSigned</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:background">@null</item>
+    </style>
+
+    <!--验证码输入框-->
+    <style name="UikitEditText.CheckCode">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:minHeight">40dp</item>
+        <item name="android:maxLength">6</item>
+        <item name="android:inputType">number</item>
+        <item name="android:textSize">@dimen/text_size_14</item>
+        <item name="android:hint">@string/uikit_edit_text_get_check_code_hint</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:background">@null</item>
+    </style>
+
+    <!--ScrollView的样式-->
+    <style name="UikitScrollViewStyle">
+        <item name="android:scrollbars">none</item>
+        <item name="android:overScrollMode">never</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+    </style>
+
+    <!--RecyclerView的样式-->
+    <style name="UikitRecyclerViewStyle">
+        <item name="android:scrollbars">none</item>
+        <item name="android:overScrollMode">never</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+    </style>
+
+    <!-- popwindow底部弹窗 -->
+    <style name="UikitPopAnimBottom" parent="@android:style/Animation">
+        <item name="android:windowEnterAnimation">@anim/uikit_push_bottom_in</item>
+        <item name="android:windowExitAnimation">@anim/uikit_push_bottom_out</item>
+    </style>
+
+    <style name="UiKitWarpLinearLayoutDefault">
+        <item name="grivate">left</item>
+        <item name="horizontal_Space">20dp</item>
+        <item name="vertical_Space">20dp</item>
+        <item name="isFull">false</item>
+    </style>
+</resources>

@@ -12,6 +12,6 @@ import java.util.List;
 public class ResTable {
     public ResTableHeader resTableHeader;
     public ResTableStringPool resStringPool;
-    public List<ResTablePackage> resPackageList;
+    public List<ResTablePackageHeader> resPackageList;
 
 }

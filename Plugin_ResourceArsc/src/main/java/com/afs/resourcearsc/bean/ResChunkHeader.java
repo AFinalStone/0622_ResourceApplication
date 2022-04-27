@@ -3,7 +3,6 @@ package com.afs.resourcearsc.bean;
 
 import com.afs.resourcearsc.utils.Byte2ObjectUtil;
 import com.afs.resourcearsc.utils.IObjToBytes;
-import com.afs.resourcearsc.utils.ParseResourceUtil;
 
 /**
  * Resource.arsc文件格式是由一系列的chunk构成，每一个chunk均包含ResChunk_header
@@ -44,10 +43,6 @@ public class ResChunkHeader implements IObjToBytes {
     public int size;
 
     public ResChunkHeader() {
-    }
-
-    public ResChunkHeader(byte[] arscArray) {
-        ResChunkHeader resChunkHeader = ParseResourceUtil.parseResChunkHeader(arscArray, 0);
     }
 
     /**

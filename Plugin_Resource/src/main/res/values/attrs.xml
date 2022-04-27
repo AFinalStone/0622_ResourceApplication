@@ -1,0 +1,413 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="UikitStrokeTextView">
+        <attr name="uikitStrokeColor" format="color|reference" />
+        <attr name="uikitStrokeWidth" format="float" />
+    </declare-styleable>
+    <!--自定义item跑马灯控件-->
+    <declare-styleable name="UikitCustomizeMarqueeView">
+        <attr name="cmvInterval" format="integer|reference" />
+        <attr name="cmvAnimDuration" format="integer|reference" />
+        <attr name="cmvGravity">
+            <enum name="left" value="0" />
+            <enum name="center" value="1" />
+            <enum name="right" value="2" />
+        </attr>
+        <attr name="cmvDirection">
+            <enum name="bottom_to_top" value="0" />
+            <enum name="top_to_bottom" value="1" />
+            <enum name="right_to_left" value="2" />
+            <enum name="left_to_right" value="3" />
+        </attr>
+    </declare-styleable>
+    <declare-styleable name="MarqueeViewStyle">
+        <attr name="mvInterval" format="integer|reference" />
+        <attr name="mvAnimDuration" format="integer|reference" />
+        <attr name="mvTextSize" format="dimension|reference" />
+        <attr name="mvTextColor" format="color|reference" />
+        <attr name="mvSingleLine" format="boolean" />
+        <attr name="mvIsOneTime" format="boolean" />
+        <attr name="mvFont" format="reference" />
+        <attr name="mvGravity">
+            <enum name="left" value="0" />
+            <enum name="center" value="1" />
+            <enum name="right" value="2" />
+        </attr>
+        <attr name="mvDirection">
+            <enum name="bottom_to_top" value="0" />
+            <enum name="top_to_bottom" value="1" />
+            <enum name="right_to_left" value="2" />
+            <enum name="left_to_right" value="3" />
+        </attr>
+    </declare-styleable>
+
+    <declare-styleable name="UikitShowHidePasswordEditText">
+        <attr name="drawablePasswordShow" format="integer" />
+        <attr name="drawablePasswordHide" format="integer" />
+        <attr name="tintColor" format="color" />
+        <attr name="additionalTouchTargetSize" format="dimension" />
+    </declare-styleable>
+
+    <declare-styleable name="UikitBottomTabView">
+        <attr name="tabText" format="string|reference" />
+        <attr name="tabTextSize" format="dimension|reference" />
+        <attr name="tabTextSelectColor" format="color|reference" />
+        <attr name="tabTextUnSelectColor" format="color|reference" />
+        <attr name="tabTextHeight" format="dimension" />
+        <attr name="tabTextWidth" format="dimension" />
+        <attr name="tabImageSelectDrawable" format="reference" />
+        <attr name="tabImageUnSelectDrawable" format="reference" />
+        <attr name="tabImageHeight" format="dimension" />
+        <attr name="tabImageWidth" format="dimension" />
+        <attr name="isSelect" format="boolean" />
+        <attr name="isShowDot" format="boolean" />
+        <attr name="tabDotColor" format="reference" />
+    </declare-styleable>
+
+    <declare-styleable name="UikitDotTextView">
+        <attr name="dotText" format="string" />
+        <attr name="dotTextColor" format="color" />
+        <attr name="dotTextSize" format="dimension" />
+        <attr name="dotBackgroundColor" format="color" />
+        <attr name="dotRadius" format="dimension" />
+    </declare-styleable>
+
+    <declare-styleable name="UikitTopBarView">
+        <attr name="titleText" format="string|reference" />
+        <attr name="titleSize" format="dimension|reference" />
+        <attr name="titleColor" format="color|reference" />
+        <attr name="backIcon" format="reference" />
+        <attr name="backIconIsShow" format="boolean" />
+        <attr name="rightIcon" format="reference" />
+        <attr name="rightText" format="string|reference" />
+        <attr name="rightTextSize" format="dimension|reference" />
+        <attr name="rightTextColor" format="color|reference" />
+        <attr name="statusBarBgColor" format="color" />
+        <attr name="bottomDividerIsShow" format="boolean" />
+    </declare-styleable>
+
+    <declare-styleable name="UikitCircleImageView">
+        <attr name="border_width" format="dimension" />
+        <attr name="border_color" format="color" />
+        <attr name="border_overlay" format="boolean" />
+        <attr name="fill_color" format="color" />
+        <attr name="circle_background_color" format="color" />
+    </declare-styleable>
+
+    <declare-styleable name="UikitShapedImageView">
+        <attr name="round_radius" format="dimension" />
+    </declare-styleable>
+
+    <declare-styleable name="UikitLiveStatusTagView">
+        <attr name="liveStatus" format="enum">
+            <enum name="online" value="1" />
+            <enum name="offline" value="2" />
+            <enum name="busy" value="3" />
+            <enum name="live" value="4" />
+        </attr>
+        <attr name="liveStatusIconWidth" format="dimension" />
+        <attr name="liveStatusIconHeight" format="dimension" />
+        <attr name="liveStatusTextSize" format="dimension|reference" />
+        <attr name="liveStatusTextColor" format="color|reference" />
+    </declare-styleable>
+
+    <declare-styleable name="UikitIconTextView">
+        <attr name="iconTextViewDividerWidth" format="dimension" /><!--Icon和TextView之间的间隙-->
+        <attr name="iconTextViewIconResId" format="reference" /><!--Icon的资源id-->
+        <attr name="iconTextViewIconWidth" format="dimension" /><!--Icon的宽度-->
+        <attr name="iconTextViewIconHeight" format="dimension" /><!--Icon的高度-->
+        <attr name="iconTextViewText" format="string" /><!--TextView的内容-->
+        <attr name="iconTextViewTextSize" format="dimension|reference" /><!--TextView的内容文字大小-->
+        <attr name="iconTextViewTextColor" format="color|reference" /><!--TextView的内容文字颜色-->
+    </declare-styleable>
+
+    <declare-styleable name="UikitSideMenuLayout">
+        <attr name="leftMenuView" format="reference" />
+        <attr name="rightMenuView" format="reference" />
+        <attr name="contentView" format="reference" />
+        <attr name="canRightSwipe" format="boolean" />
+        <attr name="canLeftSwipe" format="boolean" />
+        <attr name="fraction" format="float" />
+    </declare-styleable>
+
+    <declare-styleable name="UikitCircleIndicator">
+        <attr name="ci_width" format="dimension" />
+        <attr name="ci_height" format="dimension" />
+        <attr name="ci_margin" format="dimension" />
+        <attr name="ci_animator" format="reference" />
+        <attr name="ci_animator_reverse" format="reference" />
+        <attr name="ci_drawable" format="reference" />
+        <attr name="ci_drawable_unselected" format="reference" />
+
+        <attr name="ci_orientation" format="enum">
+            <!-- Defines an horizontal widget. -->
+            <enum name="horizontal" value="0" />
+            <!-- Defines a vertical widget. -->
+            <enum name="vertical" value="1" />
+        </attr>
+
+        <attr name="ci_gravity">
+            <!-- Push object to the top of its container, not changing its size. -->
+            <flag name="top" value="0x30" />
+            <!-- Push object to the bottom of its container, not changing its size. -->
+            <flag name="bottom" value="0x50" />
+            <!-- Push object to the left of its container, not changing its size. -->
+            <flag name="left" value="0x03" />
+            <!-- Push object to the right of its container, not changing its size. -->
+            <flag name="right" value="0x05" />
+            <!-- Place object in the vertical center of its container, not changing its size. -->
+            <flag name="center_vertical" value="0x10" />
+            <!-- Grow the vertical size of the object if needed so it completely fills its container. -->
+            <flag name="fill_vertical" value="0x70" />
+            <!-- Place object in the horizontal center of its container, not changing its size. -->
+            <flag name="center_horizontal" value="0x01" />
+            <!-- Grow the horizontal size of the object if needed so it completely fills its container. -->
+            <flag name="fill_horizontal" value="0x07" />
+            <!-- Place the object in the center of its container in both the vertical and horizontal axis, not changing its size. -->
+            <flag name="center" value="0x11" />
+            <!-- Grow the horizontal and vertical size of the object if needed so it completely fills its container. -->
+            <flag name="fill" value="0x77" />
+            <!-- Additional option that can be set to have the top and/or bottom edges of
+            the child clipped to its container's bounds.
+            The clip will be based on the vertical gravity: a top gravity will clip the bottom
+            edge, a bottom gravity will clip the top edge, and neither will clip both edges. -->
+            <flag name="clip_vertical" value="0x80" />
+            <!-- Additional option that can be set to have the left and/or right edges of
+            the child clipped to its container's bounds.
+            The clip will be based on the horizontal gravity: a left gravity will clip the right
+            edge, a right gravity will clip the left edge, and neither will clip both edges. -->
+            <flag name="clip_horizontal" value="0x08" />
+            <!-- Push object to the beginning of its container, not changing its size. -->
+            <flag name="start" value="0x00800003" />
+            <!-- Push object to the end of its container, not changing its size. -->
+            <flag name="end" value="0x00800005" />
+        </attr>
+
+    </declare-styleable>
+
+    <declare-styleable name="UikitWheelPicker">
+        <attr name="halfVisibleItemCount" format="integer" />
+        <attr name="itemTextSize" format="dimension" />
+        <attr name="itemMaximumWidthText" format="string" />
+        <attr name="itemTextColor" format="color" />
+        <attr name="textGradual" format="boolean" />
+        <attr name="selectedTextColor" format="color" />
+        <attr name="selectedTextSize" format="dimension" />
+        <attr name="currentItemPosition" format="integer" />
+        <attr name="itemWidthSpace" format="dimension" />
+        <attr name="itemHeightSpace" format="dimension" />
+        <attr name="zoomInSelectedItem" format="boolean" />
+        <attr name="wheelCyclic" format="boolean" />
+        <attr name="wheelCurtain" format="boolean" />
+        <attr name="wheelCurtainColor" format="color" />
+        <attr name="wheelCurtainBorder" format="boolean" />
+        <attr name="wheelCurtainBorderColor" format="color" />
+        <attr name="indicatorText" format="string" />
+        <attr name="indicatorTextSize" format="dimension" />
+        <attr name="indicatorTextColor" format="color" />
+    </declare-styleable>
+
+    <declare-styleable name="UikitMaxHeightRecyclerView">
+        <attr name="maxListHeight" format="dimension" />
+    </declare-styleable>
+
+    <declare-styleable name="UikitPagerSlidingTabStripUser">
+        <attr name="pUnderlineColor" format="color" /><!--整个TabView的底部下划线-->
+        <attr name="pDividerColor" format="color" /><!--TabView的条目之间的分割线-->
+        <attr name="pIndicatorColor" format="color" /><!--底部导航线，标示当前选中那个条目-->
+        <attr name="pIndicatorHeight" format="dimension" />
+        <attr name="pIndicatorWidth" format="dimension" />
+        <attr name="pIndicatorPadding" format="dimension" />
+        <attr name="pIndicatorRound" format="dimension" />
+        <attr name="pUnderlineHeight" format="dimension" />
+        <attr name="pDividerPadding" format="dimension" />
+        <attr name="pTabItemPaddingLeftRight" format="dimension" />
+        <attr name="pTabItemPaddingTopBottom" format="dimension" />
+        <attr name="pTabItemMarginLeftRight" format="dimension" />
+        <attr name="pScrollOffset" format="dimension" />
+        <attr name="pShouldExpand" format="boolean" /><!--子条目是否平均分布-->
+        <attr name="pTabItemNormalBackground" format="reference" /><!--当前选中那个条目的背景-->
+        <attr name="pTabItemSelectBackground" format="reference" /><!--当前选中那个条目的背景-->
+        <attr name="pTextColor" format="color" />
+        <attr name="pTextColorSelect" format="color" />
+        <attr name="pTextSize" format="dimension" />
+        <attr name="pTextSizeSelect" format="dimension" />
+    </declare-styleable>
+
+
+    <declare-styleable name="UikitFullMarginLayout">
+        <attr name="marginToTopAndBottom" format="dimension" />
+        <attr name="marginToLeftAndRight" format="dimension" />
+        <attr name="fullHeightType" format="enum">
+            <enum name="EqualWidth" value="0" />
+            <enum name="FillWidth" value="1" />
+            <enum name="FillHeight" value="2" />
+        </attr>
+    </declare-styleable>
+
+    <!--完成进度条-->
+    <declare-styleable name="UikitRoundProgressBar">
+        <attr name="roundColor" format="color" />
+        <attr name="progressTip" format="string" />
+        <attr name="roundProgressColor" format="color" />
+        <attr name="roundWidth" format="dimension"></attr>
+        <attr name="textColor" format="color" />
+        <attr name="textSize" format="dimension" />
+        <attr name="max" format="integer"></attr>
+        <attr name="textIsDisplayable" format="boolean"></attr>
+        <attr name="style">
+            <enum name="STROKE" value="0"></enum>
+            <enum name="FILL" value="1"></enum>
+        </attr>
+    </declare-styleable>
+
+    <declare-styleable name="UikitWarpLinearLayout">
+        <attr name="grivate" format="enum"><!--对齐方式 !-->
+            <enum name="right" value="0"></enum>
+            <enum name="left" value="1"></enum>
+            <enum name="center" value="2"></enum>
+        </attr>
+        <attr name="horizontal_Space" format="dimension"></attr>
+        <attr name="vertical_Space" format="dimension"></attr>
+        <attr name="isFull" format="boolean"></attr>
+    </declare-styleable>
+
+
+    <declare-styleable name="ImageViewer">
+        <!--是否开启进场动画-->
+        <attr name="ivr_playEnterAnim" format="boolean" />
+        <!--是否开启退场动画-->
+        <attr name="ivr_playExitAnim" format="boolean" />
+        <!--进场与退场动画的执行时间-->
+        <attr name="ivr_duration" format="integer" />
+        <!--是否显示图片位置-->
+        <attr name="ivr_showIndex" format="boolean" />
+        <!--是否允许图片拖拽-->
+        <attr name="ivr_draggable" format="boolean" />
+        <!--拖拽模式-->
+        <attr name="ivr_dragMode">
+            <enum name="simple" value="1" />
+            <enum name="agile" value="2" />
+        </attr>
+    </declare-styleable>
+    <declare-styleable name="ivr_ProgressWheel">
+        <attr name="pwText" format="string" />
+        <attr name="pwTextColor" format="color" />
+        <attr name="pwTextSize" format="dimension" />
+        <attr name="pwBarColor" format="color" />
+        <attr name="pwBarWidth" format="dimension" />
+        <attr name="pwBarLength" format="dimension" />
+        <attr name="pwRimColor" format="color" />
+        <attr name="pwRimWidth" format="dimension" />
+        <attr name="pwContourColor" format="color" />
+        <attr name="pwContourSize" format="dimension" />
+        <attr name="pwRadius" format="dimension" />
+        <attr name="pwCircleColor" format="color" />
+        <attr name="pwSpinSpeed" format="float" />
+        <attr name="pwDelayMillis" format="integer" />
+    </declare-styleable>
+    <!--网格控件-->
+    <declare-styleable name="AutoGridView">
+        <!--网格图的类型-->
+        <attr name="agv_mode">
+            <!--类似QQ空间、微信朋友圈的九宫格类型网格图-->
+            <enum name="nine" value="0" />
+            <!--依次显示网格的普通类型网格图-->
+            <enum name="normal" value="1" />
+        </attr>
+        <!--网格的行数-->
+        <attr name="agv_row" format="integer" />
+        <!--网格的列数-->
+        <attr name="agv_column" format="integer" />
+        <!--item 的高度-->
+        <attr name="agv_item_height" format="dimension" />
+        <!--item 之间的横向间距-->
+        <attr name="agv_horizontal_space" format="dimension" />
+        <!--item 之间的纵向间距-->
+        <attr name="agv_vertical_space" format="dimension" />
+        <!--九宫格模式下，单个 item 时，item 的宽与 parent 的可用总宽的比-->
+        <attr name="agv_nines_widthper" format="float" />
+        <!--九宫格模式下，单个 item 时，item 的高与 parent 的可用总宽的比-->
+        <attr name="agv_nines_heightper" format="float" />
+    </declare-styleable>
+
+    <declare-styleable name="uikit_Banner">
+        <attr name="delay_time" format="integer" />
+        <attr name="scroll_time" format="integer" />
+        <attr name="is_auto_play" format="boolean" />
+        <attr name="title_background" format="color|reference" />
+        <attr name="title_textcolor" format="color" />
+        <attr name="title_textsize" format="dimension" />
+        <attr name="title_height" format="dimension" />
+        <attr name="indicator_width" format="dimension" />
+        <attr name="indicator_height" format="dimension" />
+        <attr name="indicator_selected_width" format="dimension" />
+        <attr name="indicator_selected_height" format="dimension" />
+        <attr name="indicator_margin" format="dimension" />
+        <attr name="indicator_drawable_selected" format="reference" />
+        <attr name="indicator_drawable_unselected" format="reference" />
+        <attr name="banner_layout" format="reference" />
+        <attr name="banner_default_image" format="reference" />
+        <attr name="image_scale_type" format="enum">
+            <enum name="center" value="0" />
+            <enum name="center_crop" value="1" />
+            <enum name="center_inside" value="2" />
+            <enum name="fit_center" value="3" />
+            <enum name="fit_end" value="4" />
+            <enum name="fit_start" value="5" />
+            <enum name="fit_xy" value="6" />
+            <enum name="matrix" value="7" />
+        </attr>
+        <!--<attr name="indicator_animator" format="reference" />-->
+        <!--<attr name="indicator_animator_reverse" format="reference" />-->
+    </declare-styleable>
+
+    <!-- 自定义验证码输入框 属性 -->
+    <declare-styleable name="VerificationCodeInputView">
+        <!--输入框的数量-->
+        <attr name="vciv_et_number" format="integer" />
+        <!--输入类型-->
+        <attr name="vciv_et_inputType">
+            <enum name="number" value="0" />
+            <enum name="numberPassword" value="1" />
+            <enum name="text" value="2" />
+            <enum name="textPassword" value="3" />
+        </attr>
+        <!--输入框的宽度-->
+        <attr name="vciv_et_width" format="dimension" />
+        <!--输入框的高度-->
+        <attr name="vciv_et_height" format="dimension" />
+        <!--输入框文字颜色-->
+        <attr name="vciv_et_text_color" format="color" />
+        <!--输入框文字大小-->
+        <attr name="vciv_et_text_size" format="dimension" />
+        <!--输入框间距，不输入则代表平分-->
+        <attr name="vciv_et_spacing" format="dimension" />
+        <!--输入框背景色-->
+        <attr name="vciv_et_background" format="reference|color" />
+        <!--输入框焦点背景色-->
+        <attr name="vciv_et_foucs_background" format="reference|color" />
+        <!--输入框焦点宽度-->
+        <attr name="vciv_et_cursor_width" format="dimension" />
+        <!--输入框焦点高度-->
+        <attr name="vciv_et_cursor_height" format="dimension" />
+        <!--输入框焦点颜色-->
+        <attr name="vciv_et_cursor_color" format="color" />
+        <!--输入框下划线高度-->
+        <attr name="vciv_et_underline_height" format="dimension" />
+        <!--输入框无焦点的下划线颜色-->
+        <attr name="vciv_et_underline_default_color" format="color" />
+        <!--输入框有焦点的下划线颜色-->
+        <attr name="vciv_et_underline_focus_color" format="color" />
+        <!--输入框下划线是否展示-->
+        <attr name="vciv_et_underline_show" format="boolean" />
+    </declare-styleable>
+    <declare-styleable name="MarqueeTextView">
+        <attr name="scroll_interval" format="integer" />
+        <attr name="scroll_first_delay" format="integer" />
+        <attr name="scroll_mode">
+            <enum name="mode_forever" value="100" />
+            <enum name="mode_once" value="101" />
+        </attr>
+    </declare-styleable>
+</resources>
