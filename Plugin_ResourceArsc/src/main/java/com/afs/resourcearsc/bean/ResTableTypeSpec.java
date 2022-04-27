@@ -17,6 +17,7 @@ public class ResTableTypeSpec implements IObjToBytes {
     public ResChunkHeader header;
     /**
      * 标识资源的Type ID
+     * Type ID是指资源的类型ID，从1开始。资源的类型有animator、anim、color、drawable、layout、menu、raw、string和xml等等若干种，每一种都会被赋予一个ID。
      */
     public byte id;
     /**
