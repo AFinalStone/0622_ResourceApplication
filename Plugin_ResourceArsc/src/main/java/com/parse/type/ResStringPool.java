@@ -9,13 +9,14 @@ import com.parse.util.Object2ByteUtil;
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
  * 字符串池
- * Created by yzr on 2018/6/20.
  *
- * @author thereisnospon
+ * @author syl
+ * @time 2022/4/28 10:38
  */
 public class ResStringPool implements IObjToBytes {
 
@@ -182,8 +183,42 @@ public class ResStringPool implements IObjToBytes {
     }
 
     @Override
+    public String toString() {
+        StringBuilder stringBuilder = new StringBuilder();
+        if (strings != null) {
+            for (String item : strings) {
+                if (!item.isEmpty())
+                    stringBuilder.append(item).append(" ");
+            }
+        }
+        return "ResStringPool{" +
+                "header=" + header +
+                ", stringIndexArray=" + Arrays.toString(stringIndexArray) +
+                ", styleIndexArray=" + Arrays.toString(styleIndexArray) +
+                ", strings=" + stringBuilder +
+                ", styles=" + styles +
+                '}';
+    }
+
+    @Override
     public byte[] toBytes() {
-        byte[] byteStrings = null;
+        byte[] bytesHeader = header.toBytes();
+        byte[] byteStringIndexArray = Object2ByteUtil.intArrayByteArray(stringIndexArray);
+        byte[] byteStyleIndexArray = Object2ByteUtil.intArrayByteArray(styleIndexArray);
+        byte[] byteStrings = getByteString();
+        byte[] byteStyle = getByteStyle();
+        ByteBuffer byteBuffer = ByteBuffer.allocate(bytesHeader.length + byteStringIndexArray.length + byteStyleIndexArray.length + byteStrings.length + byteStyle.length);
+        byteBuffer.put(bytesHeader);
+        byteBuffer.put(byteStringIndexArray);
+        byteBuffer.put(byteStyleIndexArray);
+        byteBuffer.put(byteStrings);
+        byteBuffer.put(byteStyle);
+        byteBuffer.flip();
+        return byteBuffer.array();
+    }
+
+    private byte[] getByteString() {
+        byte[] byteStrings;
         int lenByteStrings = 0;
         if (ResStringPoolHeader.UTF8_FLAG == header.flags) {
             for (int i = 0; i < strings.size(); i++) {
@@ -207,28 +242,42 @@ public class ResStringPool implements IObjToBytes {
             }
         } else {
             for (int i = 0; i < strings.size(); i++) {
-                int itemLen = strings.get(i).getBytes(StandardCharsets.UTF_16).length;
+                int itemLen = strings.get(i).getBytes(StandardCharsets.UTF_8).length * 2;
                 lenByteStrings = lenByteStrings + itemLen + 4;
             }
             byteStrings = new byte[lenByteStrings];
-            int index = 0;
+            int offset = 0;
             for (int i = 0; i < strings.size(); i++) {
                 String item = strings.get(i);
-                short lenByte = (short) item.getBytes(StandardCharsets.UTF_16).length;
+                short lenByte = (short) (item.getBytes(StandardCharsets.UTF_8).length * 2);
                 byte[] byteLen = Object2ByteUtil.short2ByteArray_Little_Endian(lenByte);
-                System.arraycopy(byteLen, 0, byteStrings, index, byteLen.length);
-                index = index + 2;
+                System.arraycopy(byteLen, 0, byteStrings, offset, byteLen.length);
+                offset = offset + 2;
                 if (item.length() > 0) {
-                    byte[] byteStr = item.getBytes(StandardCharsets.UTF_16);
-                    System.arraycopy(byteStr, 0, byteStrings, index, byteStr.length);
-                    index = index + byteStr.length;
+                    byte[] byteStr = item.getBytes(StandardCharsets.UTF_8);
+                    System.arraycopy(byteStr, 0, byteStrings, offset, byteStr.length);
+                    offset = offset + byteStr.length;
                 }
-                byteStrings[index++] = 0;
-                byteStrings[index++] = 0;
+                byteStrings[offset++] = 0;
+                byteStrings[offset++] = 0;
             }
         }
+        return byteStrings;
+    }
 
-
-        return byteStringPool;
+    private byte[] getByteStyle() {
+        byte[] byteStyles;
+        int lenByteStyle = 0;
+        for (int i = 0; i < styles.size(); i++) {
+            lenByteStyle = lenByteStyle + styles.get(i).toBytes().length;
+        }
+        byteStyles = new byte[lenByteStyle];
+        int offset = 0;
+        for (int i = 0; i < styles.size(); i++) {
+            byte[] byteStyle = styles.get(i).toBytes();
+            System.arraycopy(byteStyle, 0, byteStyle, offset, byteStyle.length);
+            offset = offset + byteStyle.length;
+        }
+        return byteStyles;
     }
 }

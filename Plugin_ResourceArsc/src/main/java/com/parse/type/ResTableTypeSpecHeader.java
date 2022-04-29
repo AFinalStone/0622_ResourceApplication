@@ -1,12 +1,15 @@
 package com.parse.type;
 
+import com.parse.util.IObjToBytes;
+import com.parse.util.Object2ByteUtil;
+
 /**
  * 资源配置
- * Created by yzr on 2018/6/20.
  *
- * @author thereisnospon
+ * @author syl
+ * @time 2022/4/28 10:40
  */
-public class ResTableTypeSpecHeader {
+public class ResTableTypeSpecHeader implements IObjToBytes {
 
     public final static int SPEC_PUBLIC = 0x40000000;
     /**
@@ -30,4 +33,19 @@ public class ResTableTypeSpecHeader {
 
     }
 
+    @Override
+    public String toString() {
+        return "ResTableTypeSpecHeader{" +
+                "header=" + header +
+                ", id=" + id +
+                ", res0=" + res0 +
+                ", res1=" + res1 +
+                ", entryCount=" + entryCount +
+                '}';
+    }
+
+    @Override
+    public byte[] toBytes() {
+        return Object2ByteUtil.object2ByteArray_Little_Endian(new Object[]{header, id, res0, res1, entryCount});
+    }
 }

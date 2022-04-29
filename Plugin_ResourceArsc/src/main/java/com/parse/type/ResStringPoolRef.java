@@ -4,10 +4,8 @@ import com.parse.util.IObjToBytes;
 import com.parse.util.Object2ByteUtil;
 
 /**
- * Reference to a string in a string pool.
- * Created by yzr on 2018/6/20.
- *
- * @author thereisnospo
+ * @author syl
+ * @time 2022/4/28 10:38
  */
 public class ResStringPoolRef implements IObjToBytes {
 
@@ -20,6 +18,13 @@ public class ResStringPoolRef implements IObjToBytes {
 
     public static int getSize() {
         return 4;
+    }
+
+    @Override
+    public String toString() {
+        return "ResStringPoolRef{" +
+                "index=" + index +
+                '}';
     }
 
     @Override

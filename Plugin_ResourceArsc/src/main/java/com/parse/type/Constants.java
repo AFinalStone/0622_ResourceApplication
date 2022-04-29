@@ -1,10 +1,8 @@
 package com.parse.type;
 
 /**
- * 文件来自 aosp
- * Created by yzr on 2018/6/20.
- *
- * @author thereisnospon
+ * @author syl
+ * @time 2022/4/28 10:37
  */
 public interface Constants {
 

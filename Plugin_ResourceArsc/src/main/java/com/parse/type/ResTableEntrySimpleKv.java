@@ -2,9 +2,8 @@ package com.parse.type;
 
 
 /**
- * Created by yzr on 2018/6/20.
- *
- * @author thereisnospon
+ * @author syl
+ * @time 2022/4/28 10:39
  */
 public class ResTableEntrySimpleKv extends ResTableEntryKv {
 
@@ -16,5 +15,12 @@ public class ResTableEntrySimpleKv extends ResTableEntryKv {
     public ResTableEntrySimpleKv(ResTableEntry entry, ResValue value) {
         super(entry);
         this.value = value;
+    }
+
+    @Override
+    public String toString() {
+        return "ResTableEntrySimpleKv{" +
+                "value=" + value +
+                '}';
     }
 }

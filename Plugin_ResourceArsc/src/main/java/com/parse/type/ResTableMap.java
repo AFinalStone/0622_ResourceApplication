@@ -3,9 +3,8 @@ package com.parse.type;
 import com.parse.util.ByteUtils;
 
 /**
- * Created by yzr on 2018/6/20.
- *
- * @author thereisnospon
+ * @author syl
+ * @time 2022/4/28 10:39
  */
 public class ResTableMap {
 
@@ -53,4 +52,12 @@ public class ResTableMap {
         return ResTableRef.getSize() + value.getSize();
     }
 
+    @Override
+    public String toString() {
+        return "ResTableMap{" +
+                "name=" + name +
+                ", value=" + value +
+                ", __entry=" + __entry +
+                '}';
+    }
 }

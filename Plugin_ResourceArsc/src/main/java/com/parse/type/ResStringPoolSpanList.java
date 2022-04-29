@@ -7,7 +7,8 @@ import java.nio.ByteBuffer;
 import java.util.List;
 
 /**
- * Created by yzr on 2018/6/20.
+ * @author syl
+ * @time 2022/4/28 10:38
  */
 public class ResStringPoolSpanList implements IObjToBytes {
     /**
@@ -27,5 +28,12 @@ public class ResStringPoolSpanList implements IObjToBytes {
         }
         byteBuffer.flip();
         return byteBuffer.array();
+    }
+
+    @Override
+    public String toString() {
+        return "ResStringPoolSpanList{" +
+                "spans=" + spans +
+                '}';
     }
 }

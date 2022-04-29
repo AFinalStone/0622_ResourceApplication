@@ -1,17 +1,23 @@
 package com.parse.type;
 
-import com.parse.util.DebugUtils;
 import com.parse.util.ByteUtils;
+import com.parse.util.DebugUtils;
+import com.parse.util.IObjToBytes;
+import com.parse.util.Object2ByteUtil;
 
+import java.nio.ByteBuffer;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
  * 一种资源类型下具有相同资源配置的资源集合
  * 例如 string-hdpi.xml, string-zh.xml,string-xxhdpi-cn.xml 对应不同的  ResTableType
- * Created by yzr on 2018/6/20.
+ *
+ * @author syl
+ * @time 2022/4/28 10:40
  */
-public class ResTableType {
+public class ResTableType implements IObjToBytes {
 
     /**
      * chunk header
@@ -115,5 +121,42 @@ public class ResTableType {
         }
         type.resKvList = resKvs;
         return type;
+    }
+
+    @Override
+    public String toString() {
+        return "ResTableType{" +
+                "header=" + header +
+                ", entryArray=" + Arrays.toString(entryArray) +
+                ", resKvList=" + resKvList +
+                ", __pkg=" + __pkg +
+                '}';
+    }
+
+    @Override
+    public byte[] toBytes() {
+        byte[] byteTop = Object2ByteUtil.object2ByteArray_Little_Endian(new Object[]{header, entryArray});
+        byte[] byteResKvList = getResKvList();
+        ByteBuffer byteBuffer = ByteBuffer.allocate(byteTop.length + byteResKvList.length);
+        byteBuffer.put(byteTop);
+        byteBuffer.put(byteResKvList);
+        byteBuffer.flip();
+        return byteBuffer.array();
+    }
+
+    private byte[] getResKvList() {
+        byte[] byteResTypes;
+        int lenByteResTypes = 0;
+        for (int i = 0; i < resKvList.size(); i++) {
+            lenByteResTypes = lenByteResTypes + resKvList.get(i).toBytes().length;
+        }
+        byteResTypes = new byte[lenByteResTypes];
+        int offset = 0;
+        for (int i = 0; i < resKvList.size(); i++) {
+            byte[] byteStyle = resKvList.get(i).toBytes();
+            System.arraycopy(byteStyle, 0, byteResTypes, offset, byteStyle.length);
+            offset = offset + byteStyle.length;
+        }
+        return byteResTypes;
     }
 }

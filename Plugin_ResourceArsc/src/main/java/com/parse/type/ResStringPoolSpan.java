@@ -4,9 +4,8 @@ import com.parse.util.IObjToBytes;
 import com.parse.util.Object2ByteUtil;
 
 /**
- * This structure defines a span of style information associated with
- * a string in the pool.
- * Created by yzr on 2018/6/20.
+ * @author syl
+ * @time 2022/4/28 10:38
  */
 public class ResStringPoolSpan implements IObjToBytes {
 

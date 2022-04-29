@@ -5,9 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by yzr on 2018/6/20.
- *
- * @author thereisnospon
+ * @author syl
+ * @time 2022/4/28 10:37
  */
 public class ResFile {
 
@@ -73,4 +72,5 @@ public class ResFile {
         }
         return null;
     }
+
 }

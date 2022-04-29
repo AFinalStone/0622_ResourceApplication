@@ -353,34 +353,18 @@ public class Object2ByteUtil {
     }
 
     /**
-     * byte转char
-     *
-     * @param bytes
-     * @return
-     */
-    private char[] ByteArray2CharArray(byte[] bytes) {
-        Charset cs = Charset.forName("UTF-8");
-        ByteBuffer bb = ByteBuffer.allocate(bytes.length);
-        bb.put(bytes);
-        bb.flip();
-        CharBuffer cb = cs.decode(bb);
-
-        return cb.array();
-    }
-
-    /**
      * int[]转byte[]
      *
      * @param intArray
      * @return
      */
     public static byte[] intArrayByteArray(int[] intArray) {
-        byte[] bytes = new byte[intArray.length];
+        ByteBuffer byteBuffer = ByteBuffer.allocate(intArray.length * 4);
         for (int i = 0; i < intArray.length; i++) {
-            byte[] byteTemp = int2ByteArray_Little_Endian(intArray[i]);
-            System.arraycopy(byteTemp, 0, bytes, i * 4, byteTemp.length);
+            byteBuffer.put(int2ByteArray_Little_Endian(intArray[i]));
         }
-        return bytes;
+        byteBuffer.flip();
+        return byteBuffer.array();
     }
 
 
@@ -419,9 +403,19 @@ public class Object2ByteUtil {
      * 对象 转字节数组，小端
      */
     public static byte[] object2ByteArray_Little_Endian(Object object) {
-        byte[] byteValue;
+        byte[] byteValue = null;
+        if (object instanceof Byte) {
+            ByteBuffer byteBuffer = ByteBuffer.allocate(1);
+            byteBuffer.put((Byte) object);
+            byteBuffer.flip();
+            return byteBuffer.array();
+        }
         if (object instanceof Short) {
             byteValue = short2ByteArray_Little_Endian((Short) object);
+            return byteValue;
+        }
+        if (object instanceof Integer) {
+            byteValue = int2ByteArray_Little_Endian((Integer) object);
             return byteValue;
         }
         if (object instanceof byte[]) {
@@ -440,7 +434,6 @@ public class Object2ByteUtil {
             byteValue = ((IObjToBytes) object).toBytes();
             return byteValue;
         }
-        byteValue = int2ByteArray_Little_Endian((Integer) object);
         return byteValue;
     }
 

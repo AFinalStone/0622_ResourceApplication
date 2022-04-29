@@ -1,93 +1,14 @@
 package com.parse.type;
 
+import static com.parse.util.DebugUtils.assertTrue;
+
 import com.parse.util.ByteUtils;
 import com.parse.util.IObjToBytes;
 import com.parse.util.Object2ByteUtil;
 
-import static com.parse.util.DebugUtils.assertTrue;
-
 /**
- * 字符串池 chunk header
- * *******************************************************************
- * String Pool
- * <p>
- * A set of strings that can be references by others through a
- * ResStringPool_ref.
- * <p>
- * **********************************************************************
- * Definition for a pool of strings.  The data of this chunk is an
- * array of uint32_t providing indices into the pool, relative to
- * stringsStart.  At stringsStart are all of the UTF-16 strings
- * concatenated together; each starts with a uint16_t of the string's
- * length and each ends with a 0x0000 terminator.  If a string is >
- * 32767 characters, the high bit of the length is set meaning to take
- * those 15 bits as a high word and it will be followed by another
- * uint16_t containing the low word.
- * <p>
- * If styleCount is not zero, then immediately following the array of
- * uint32_t indices into the string table is another array of indices
- * into a style table starting at stylesStart.  Each entry in the
- * style table is an array of ResStringPool_span structures.
- * <p>
- * Definition for a pool of strings.  The data of this chunk is an
- * array of uint32_t providing indices into the pool, relative to
- * stringsStart.  At stringsStart are all of the UTF-16 strings
- * concatenated together; each starts with a uint16_t of the string's
- * length and each ends with a 0x0000 terminator.  If a string is >
- * 32767 characters, the high bit of the length is set meaning to take
- * those 15 bits as a high word and it will be followed by another
- * uint16_t containing the low word.
- * <p>
- * If styleCount is not zero, then immediately following the array of
- * uint32_t indices into the string table is another array of indices
- * into a style table starting at stylesStart.  Each entry in the
- * style table is an array of ResStringPool_span structures.
- * <p>
- * Definition for a pool of strings.  The data of this chunk is an
- * array of uint32_t providing indices into the pool, relative to
- * stringsStart.  At stringsStart are all of the UTF-16 strings
- * concatenated together; each starts with a uint16_t of the string's
- * length and each ends with a 0x0000 terminator.  If a string is >
- * 32767 characters, the high bit of the length is set meaning to take
- * those 15 bits as a high word and it will be followed by another
- * uint16_t containing the low word.
- * <p>
- * If styleCount is not zero, then immediately following the array of
- * uint32_t indices into the string table is another array of indices
- * into a style table starting at stylesStart.  Each entry in the
- * style table is an array of ResStringPool_span structures.
- * <p>
- * Definition for a pool of strings.  The data of this chunk is an
- * array of uint32_t providing indices into the pool, relative to
- * stringsStart.  At stringsStart are all of the UTF-16 strings
- * concatenated together; each starts with a uint16_t of the string's
- * length and each ends with a 0x0000 terminator.  If a string is >
- * 32767 characters, the high bit of the length is set meaning to take
- * those 15 bits as a high word and it will be followed by another
- * uint16_t containing the low word.
- * <p>
- * If styleCount is not zero, then immediately following the array of
- * uint32_t indices into the string table is another array of indices
- * into a style table starting at stylesStart.  Each entry in the
- * style table is an array of ResStringPool_span structures.
- * <p>
- * Definition for a pool of strings.  The data of this chunk is an
- * array of uint32_t providing indices into the pool, relative to
- * stringsStart.  At stringsStart are all of the UTF-16 strings
- * concatenated together; each starts with a uint16_t of the string's
- * length and each ends with a 0x0000 terminator.  If a string is >
- * 32767 characters, the high bit of the length is set meaning to take
- * those 15 bits as a high word and it will be followed by another
- * uint16_t containing the low word.
- * <p>
- * If styleCount is not zero, then immediately following the array of
- * uint32_t indices into the string table is another array of indices
- * into a style table starting at stylesStart.  Each entry in the
- * style table is an array of ResStringPool_span structures.
- * <p>
- * Created by yzr on 2018/6/20.
- *
- * @author thereisnospon
+ * @author syl
+ * @time 2022/4/28 10:37
  */
 public class ResStringPoolHeader implements IObjToBytes {
 
@@ -185,6 +106,18 @@ public class ResStringPoolHeader implements IObjToBytes {
         assertTrue(offset + 20 == stringPoolHeader.header.debug_offset + stringPoolHeader.header.headerSize);
 
         return stringPoolHeader;
+    }
+
+    @Override
+    public String toString() {
+        return "ResStringPoolHeader{" +
+                "header=" + header +
+                ", stringCount=" + stringCount +
+                ", styleCount=" + styleCount +
+                ", flags=" + flags +
+                ", stringsStart=" + stringsStart +
+                ", stylesStart=" + stylesStart +
+                '}';
     }
 
 

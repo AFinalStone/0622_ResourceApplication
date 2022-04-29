@@ -1,13 +1,16 @@
 package com.parse.type;
 
 import com.parse.util.ByteUtils;
+import com.parse.util.IObjToBytes;
+import com.parse.util.Object2ByteUtil;
 
 import java.util.List;
 
 /**
- * Created by yzr on 2018/6/20.
+ * @author syl
+ * @time 2022/4/28 10:39
  */
-public class ResTableEntry {
+public class ResTableEntry implements IObjToBytes {
 
     public final static int FLAG_COMPLEX = 0x0001;
     public final static int FLAG_PUBLIC = 0x0002;
@@ -93,5 +96,22 @@ public class ResTableEntry {
 
     public String type() {
         return "ResTableEntry";
+    }
+
+    @Override
+    public String toString() {
+        return "ResTableEntry{" +
+                "size=" + size +
+                ", flags=" + flags +
+                ", key=" + key +
+                ", __type=" + __type +
+                ", __index=" + __index +
+                ", __empty=" + __empty +
+                '}';
+    }
+
+    @Override
+    public byte[] toBytes() {
+        return Object2ByteUtil.object2ByteArray_Little_Endian(new Object[]{size, flags, key});
     }
 }

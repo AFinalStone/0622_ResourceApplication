@@ -1,17 +1,18 @@
 package com.parse.type;
 
 import com.parse.util.ByteUtils;
+import com.parse.util.IObjToBytes;
+import com.parse.util.Object2ByteUtil;
+
+import java.io.UnsupportedEncodingException;
 
 /**
- * A collection of resource data types within a package.  Followed by
- * one or more ResTable_type and ResTable_typeSpec structures containing the
- * entry values for each resource type.
- * <p>
- * Created by yzr on 2018/6/20.
+ * 资源包头
  *
- * @author thereisnospon
+ * @author syl
+ * @time 2022/4/28 10:39
  */
-public class ResTablePackageHeader {
+public class ResTablePackageHeader implements IObjToBytes {
 
     public ResChunkHeader header;
 
@@ -26,7 +27,8 @@ public class ResTablePackageHeader {
      * package name
      * Actual name of this package, \0-terminated.
      */
-    public byte[] nameByte;
+//    public byte[] nameByte;
+    public String name;
 
     /**
      * type 字符串池相对本chunk 的开始的偏移
@@ -72,7 +74,7 @@ public class ResTablePackageHeader {
         resTabPackageHeader.id = ByteUtils.byte2int(idByte);
 
         //解析包名
-        resTabPackageHeader.nameByte = ByteUtils.copyByte(src, offset + 4, 128 * 2);//这里的128是这个字段的大小，可以查看类型说明，是char类型的，所以要乘以2
+        resTabPackageHeader.name = new String(ByteUtils.copyByte(src, offset + 4, 128 * 2));//这里的128是这个字段的大小，可以查看类型说明，是char类型的，所以要乘以2
 
         //解析类型字符串的偏移值
         byte[] typeStringsByte = ByteUtils.copyByte(src, offset + 4 + 128 * 2, 4);
@@ -87,14 +89,41 @@ public class ResTablePackageHeader {
         resTabPackageHeader.keyStrings = ByteUtils.byte2int(keyStrings);
 
         //解析lastPublicKey
-        byte[] lastPublicKey = ByteUtils.copyByte(src, offset + 12 + 128 * 2, 4);
+        byte[] lastPublicKey = ByteUtils.copyByte(src, offset + 16 + 128 * 2, 4);
         resTabPackageHeader.lastPublicKey = ByteUtils.byte2int(lastPublicKey);
 
         return resTabPackageHeader;
     }
 
     public String __debugPkgName() {
-        String packageName = new String(nameByte);
+        String packageName = new String(name);
         return ByteUtils.filterStringNull(packageName);
+    }
+
+    @Override
+    public String toString() {
+        return "ResTablePackageHeader{" +
+                "header=" + header +
+                ", id=" + id +
+                ", nameByte=" + name +
+                ", typeStrings=" + typeStrings +
+                ", lastPublicType=" + lastPublicType +
+                ", keyStrings=" + keyStrings +
+                ", lastPublicKey=" + lastPublicKey +
+                ", typeIdOffset=" + typeIdOffset +
+                '}';
+    }
+
+    @Override
+    public byte[] toBytes() {
+        byte[] byteStrName = new byte[256];
+        try {
+            byteStrName = ((String) name).getBytes("UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        return Object2ByteUtil.object2ByteArray_Little_Endian(new Object[]{
+                header, id, byteStrName, typeStrings, lastPublicType, keyStrings, lastPublicKey, typeIdOffset
+        });
     }
 }

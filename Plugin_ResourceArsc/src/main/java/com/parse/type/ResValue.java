@@ -264,4 +264,5 @@ public class ResValue {
     private static final String FRACTION_UNITS[] = {
             "%", "%p", "", "", "", "", "", ""
     };
+
 }

@@ -1,10 +1,14 @@
 package com.parse.type;
 
+import com.parse.util.IObjToBytes;
+
 /**
  * 例如 string-hdpi.xml, string-zh.xml,string-xxhdpi-cn.xml 对应不同的  ResTableType
- * Created by yzr on 2018/6/20.
+ *
+ * @author syl
+ * @time 2022/4/28 10:40
  */
-public class ResTableTypeHeader {
+public class ResTableTypeHeader implements IObjToBytes {
 
     public ResChunkHeader header;
 
@@ -31,5 +35,23 @@ public class ResTableTypeHeader {
 
     public ResTableTypeHeader() {
         resConfig = new ResTableConfig();
+    }
+
+    @Override
+    public String toString() {
+        return "ResTableTypeHeader{" +
+                "header=" + header +
+                ", id=" + id +
+                ", res0=" + res0 +
+                ", res1=" + res1 +
+                ", entryCount=" + entryCount +
+                ", entriesStart=" + entriesStart +
+                ", resConfig=" + resConfig +
+                '}';
+    }
+
+    @Override
+    public byte[] toBytes() {
+        return new byte[0];
     }
 }

@@ -3,7 +3,8 @@ package com.parse.type;
 import com.parse.util.ByteUtils;
 
 /**
- * Created by yzr on 2018/6/20.
+ * @author syl
+ * @time 2022/4/28 10:39
  */
 public class ResTableMapEntry extends ResTableEntry {
 
@@ -15,8 +16,8 @@ public class ResTableMapEntry extends ResTableEntry {
         parent = new ResTableRef();
     }
 
-    public static int getSize(){
-        return ResTableEntry.getSize()+ ResTableRef.getSize() + 4;
+    public static int getSize() {
+        return ResTableEntry.getSize() + ResTableRef.getSize() + 4;
     }
 
     /**
@@ -50,7 +51,15 @@ public class ResTableMapEntry extends ResTableEntry {
     }
 
     @Override
-   public String type() {
+    public String type() {
         return "ResTableMapEntry";
+    }
+
+    @Override
+    public String toString() {
+        return "ResTableMapEntry{" +
+                "parent=" + parent +
+                ", count=" + count +
+                '}';
     }
 }

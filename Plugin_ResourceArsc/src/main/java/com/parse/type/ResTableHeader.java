@@ -1,6 +1,8 @@
 package com.parse.type;
 
 import com.parse.util.ByteUtils;
+import com.parse.util.IObjToBytes;
+import com.parse.util.Object2ByteUtil;
 
 /**
  * 文件 chunk header
@@ -18,7 +20,7 @@ import com.parse.util.ByteUtils;
  *
  * @author thereisnospon
  */
-public class ResTableHeader {
+public class ResTableHeader implements IObjToBytes {
 
     /**
      * chunk header
@@ -54,6 +56,15 @@ public class ResTableHeader {
 
     @Override
     public String toString() {
-        return "header:{\n" + header.toString() + "\n" + "packageCount:" + packageCount + "\n}";
+        return "ResTableHeader{" +
+                "header=" + header +
+                ", packageCount=" + packageCount +
+                '}';
+    }
+
+    @Override
+    public byte[] toBytes() {
+        Object[] objects = {header, packageCount};
+        return Object2ByteUtil.object2ByteArray_Little_Endian(objects);
     }
 }

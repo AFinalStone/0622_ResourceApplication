@@ -5,11 +5,8 @@ import com.parse.util.IObjToBytes;
 import com.parse.util.Object2ByteUtil;
 
 /**
- * Header that appears at the front of every data chunk in a resource.
- * <p>
- * Created by yzr on 2018/6/20.
- *
- * @author thereisnospon
+ * @author syl
+ * @time 2022/4/28 10:37
  */
 public class ResChunkHeader implements IObjToBytes {
 
@@ -108,7 +105,12 @@ public class ResChunkHeader implements IObjToBytes {
 
     @Override
     public String toString() {
-        return "type: " + type + "\n" + "headerSize: " + headerSize + "\n" + "size: " + size;
+        return "ResChunkHeader{" +
+                "type=" + type +
+                ", headerSize=" + headerSize +
+                ", size=" + size +
+                ", debug_offset=" + debug_offset +
+                '}';
     }
 
     @Override

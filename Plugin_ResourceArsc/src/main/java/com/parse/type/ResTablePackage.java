@@ -2,17 +2,19 @@ package com.parse.type;
 
 
 import com.parse.util.DebugUtils;
+import com.parse.util.IObjToBytes;
 
+import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * 资源包
- * Created by yzr on 2018/6/20.
  *
- * @author thereisnospon
+ * @author syl
+ * @time 2022/4/28 10:41
  */
-public class ResTablePackage {
+public class ResTablePackage implements IObjToBytes {
 
     /**
      * 资源包 chunk header
@@ -20,10 +22,11 @@ public class ResTablePackage {
     public ResTablePackageHeader header;
 
     /**
-     * 类型字符串池
+     * 资源类型字符串池
      */
     public ResStringPool typeStringPool;
     /**
+     * 资源项名称字符串池
      * key 字符串池
      */
     public ResStringPool keyStringPool;
@@ -130,5 +133,47 @@ public class ResTablePackage {
 
     public static int getResId(int packId, int resTypeId, int entryid) {
         return (((packId) << 24) | (((resTypeId) & 0xFF) << 16) | (entryid & 0xFFFF));
+    }
+
+    @Override
+    public String toString() {
+        return "ResTablePackage{" +
+                "header=" + header +
+                "\n, typeStringPool=" + typeStringPool +
+                "\n, keyStringPool=" + keyStringPool +
+                "\n, resTypes=" + resTypes +
+                "\n, __resFile=" + __resFile +
+                '}';
+    }
+
+    @Override
+    public byte[] toBytes() {
+        byte[] bytesHeader = header.toBytes();
+        byte[] byteTypeStringPool = typeStringPool.toBytes();
+        byte[] byteKeyStringPool = keyStringPool.toBytes();
+        byte[] byteResTypes = getResTypes();
+        ByteBuffer byteBuffer = ByteBuffer.allocate(bytesHeader.length + byteTypeStringPool.length + byteKeyStringPool.length + byteResTypes.length);
+        byteBuffer.put(bytesHeader);
+        byteBuffer.put(byteTypeStringPool);
+        byteBuffer.put(byteKeyStringPool);
+        byteBuffer.put(byteResTypes);
+        byteBuffer.flip();
+        return byteBuffer.array();
+    }
+
+    private byte[] getResTypes() {
+        byte[] byteResTypes;
+        int lenByteResTypes = 0;
+        for (int i = 0; i < resTypes.size(); i++) {
+            lenByteResTypes = lenByteResTypes + resTypes.get(i).toBytes().length;
+        }
+        byteResTypes = new byte[lenByteResTypes];
+        int offset = 0;
+        for (int i = 0; i < resTypes.size(); i++) {
+            byte[] byteStyle = resTypes.get(i).toBytes();
+            System.arraycopy(byteStyle, 0, byteResTypes, offset, byteStyle.length);
+            offset = offset + byteStyle.length;
+        }
+        return byteResTypes;
     }
 }

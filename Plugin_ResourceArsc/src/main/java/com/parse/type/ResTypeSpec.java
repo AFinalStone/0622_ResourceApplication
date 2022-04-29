@@ -1,12 +1,17 @@
 package com.parse.type;
 
-import com.parse.util.DebugUtils;
 import com.parse.util.ByteUtils;
+import com.parse.util.DebugUtils;
+import com.parse.util.IObjToBytes;
+import com.parse.util.Object2ByteUtil;
+
+import java.util.Arrays;
 
 /**
- * Created by yzr on 2018/6/20.
+ * @author syl
+ * @time 2022/4/28 10:40
  */
-public class ResTypeSpec {
+public class ResTypeSpec implements IObjToBytes {
 
     /**
      * ResTypeSpec chunk header
@@ -60,5 +65,18 @@ public class ResTypeSpec {
         typeSpec.array = intAry;
 
         return typeSpec;
+    }
+
+    @Override
+    public String toString() {
+        return "ResTypeSpec{" +
+                "header=" + header +
+                ", array=" + Arrays.toString(array) +
+                '}';
+    }
+
+    @Override
+    public byte[] toBytes() {
+        return Object2ByteUtil.object2ByteArray_Little_Endian(new Object[]{header, array});
     }
 }

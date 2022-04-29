@@ -8,8 +8,8 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Describes a particular resource configuration.
- * Created by yzr on 2018/6/20.
+ * @author syl
+ * @time 2022/4/28 10:38
  */
 public class ResTableConfig {
 
