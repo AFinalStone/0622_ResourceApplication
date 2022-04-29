@@ -10,8 +10,6 @@ import com.afs.resourcearsc.bean.ResTableTypeType;
 import com.afs.resourcearsc.parse.IParseResource;
 import com.afs.resourcearsc.utils.Byte2ObjectUtil;
 
-import java.util.ArrayList;
-
 public class ParseResourceImpl implements IParseResource {
 
     /**
@@ -76,13 +74,17 @@ public class ParseResourceImpl implements IParseResource {
         int len = resTableStringPoolHeader.stringsStart - resTableStringPoolHeader.header.headerSize;
         resTableStringPoolHeader.byteStringOffSet = copyByte(arscArray, startIndex, len);
 
-        ResTableStringPool resTableStringPool = null;
-        if (ResTableStringPoolHeader.UTF8_FLAG == resTableStringPoolHeader.flags) {
-            resTableStringPool = parseResTableStringPoolStrListByUTF_8(arscArray, offSet, resTableStringPoolHeader.stringsStart, resTableStringPoolHeader.stringCount);
+        ResTableStringPool resTableStringPool = new ResTableStringPool();
+
+        if (resTableStringPoolHeader.stylesStart == 0) {
+            startIndex = offSet + resTableStringPoolHeader.stringsStart;
+            int strLen = resTableStringPoolHeader.header.size - resTableStringPoolHeader.stringsStart;
+            resTableStringPool.strList = copyByte(arscArray, startIndex, strLen);
         } else {
-            resTableStringPool = parseResTableStringPoolStrListByUTF_16(arscArray, offSet, resTableStringPoolHeader.stringsStart, resTableStringPoolHeader.stringCount);
-        }
-        if (resTableStringPoolHeader.stylesStart != 0) {
+            startIndex = offSet + resTableStringPoolHeader.stringsStart;
+            int strLen = resTableStringPoolHeader.stylesStart - resTableStringPoolHeader.stringsStart;
+            resTableStringPool.strList = copyByte(arscArray, startIndex, strLen);
+
             startIndex = offSet + resTableStringPoolHeader.stylesStart;
             int styLen = resTableStringPoolHeader.header.size - resTableStringPoolHeader.stylesStart;
             resTableStringPoolHeader.byteStringOffSet = copyByte(arscArray, startIndex, styLen);
@@ -219,84 +221,84 @@ public class ParseResourceImpl implements IParseResource {
         return header;
     }
 
-    /**
-     * 解析字符串常量池中的字符串
-     *
-     * @param arscArray
-     * @param stringsStart
-     * @param stringCount
-     * @return
-     */
-    private ResTableStringPool parseResTableStringPoolStrListByUTF_16(byte[] arscArray, int offSet, int stringsStart, int stringCount) {
-        //解析ChunkHeader
-        ResTableStringPool resTableStringPool = new ResTableStringPool();
-        int startIndex = offSet + stringsStart;
-        //字符串
-        ArrayList<String> strings = new ArrayList<String>();
-        int index = 0;
-        while (index < stringCount) {
-            byte[] byteStringSize = copyByte(arscArray, startIndex, 2);
-            int stringStringLen = Byte2ObjectUtil.byteArray2Int_Little_Endian(byteStringSize) * 2;
-            if (0 != stringStringLen) {
-                String val = "";
-                try {
-                    val = new String(copyByte(arscArray, startIndex + 2, stringStringLen), "UTF-8");
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                strings.add(val);
-            } else {
-                strings.add("");
-            }
-            startIndex += (stringStringLen + 4);
-            index++;
-        }
-        return resTableStringPool;
-    }
-
-    /**
-     * 解析字符串常量池中的字符串
-     *
-     * @param arscArray
-     * @param stringsStart
-     * @param stringCount
-     * @return
-     */
-    private ResTableStringPool parseResTableStringPoolStrListByUTF_8(byte[] arscArray, int offSet, int stringsStart, int stringCount) {
-        //解析ChunkHeader
-        ResTableStringPool resTableStringPool = new ResTableStringPool();
-        int startIndex = offSet + stringsStart;
-        //字符串
-        ArrayList<String> strings = new ArrayList<String>();
-        int index = 0;
-        while (index < stringCount) {
-            byte[] byteStringSize = copyByte(arscArray, startIndex, 2);
-            int stringByteFlag = (byteStringSize[0] & 0xFF);
-            int stringByteLen = (byteStringSize[1] & 0xFF);
-            int tempLen = 0;
-            if (stringByteFlag >= 128) {
-                tempLen = 2;
-                byteStringSize = copyByte(arscArray, startIndex, 2 + tempLen);
-                stringByteLen = (byteStringSize[3] & 0xFF) | (byteStringSize[2] & 0x0F) << 8;
-            }
-            if (0 != stringByteLen) {
-                String val = "";
-                try {
-                    byte[] byteTemp = copyByte(arscArray, startIndex + 2 + tempLen, stringByteLen);
-                    val = new String(byteTemp, "UTF-8");
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                strings.add(val);
-            } else {
-                strings.add("");
-            }
-            startIndex += (stringByteLen + 3 + tempLen);
-            index++;
-        }
-        resTableStringPool.stringList = strings;
-        return resTableStringPool;
-    }
+//    /**
+//     * 解析字符串常量池中的字符串
+//     *
+//     * @param arscArray
+//     * @param stringsStart
+//     * @param stringCount
+//     * @return
+//     */
+//    private ResTableStringPool parseResTableStringPoolStrListByUTF_16(byte[] arscArray, int offSet, int stringsStart, int stringCount) {
+//        //解析ChunkHeader
+//        ResTableStringPool resTableStringPool = new ResTableStringPool();
+//        int startIndex = offSet + stringsStart;
+//        //字符串
+//        ArrayList<String> strings = new ArrayList<String>();
+//        int index = 0;
+//        while (index < stringCount) {
+//            byte[] byteStringSize = copyByte(arscArray, startIndex, 2);
+//            int stringStringLen = Byte2ObjectUtil.byteArray2Int_Little_Endian(byteStringSize) * 2;
+//            if (0 != stringStringLen) {
+//                String val = "";
+//                try {
+//                    val = new String(copyByte(arscArray, startIndex + 2, stringStringLen), "UTF-8");
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+//                strings.add(val);
+//            } else {
+//                strings.add("");
+//            }
+//            startIndex += (stringStringLen + 4);
+//            index++;
+//        }
+//        return resTableStringPool;
+//    }
+//
+//    /**
+//     * 解析字符串常量池中的字符串
+//     *
+//     * @param arscArray
+//     * @param stringsStart
+//     * @param stringCount
+//     * @return
+//     */
+//    private ResTableStringPool parseResTableStringPoolStrListByUTF_8(byte[] arscArray, int offSet, int stringsStart, int stringCount) {
+//        //解析ChunkHeader
+//        ResTableStringPool resTableStringPool = new ResTableStringPool();
+//        int startIndex = offSet + stringsStart;
+//        //字符串
+//        ArrayList<String> strings = new ArrayList<String>();
+//        int index = 0;
+//        while (index < stringCount) {
+//            byte[] byteStringSize = copyByte(arscArray, startIndex, 2);
+//            int stringByteFlag = (byteStringSize[0] & 0xFF);
+//            int stringByteLen = (byteStringSize[1] & 0xFF);
+//            int tempLen = 0;
+//            if (stringByteFlag >= 128) {
+//                tempLen = 2;
+//                byteStringSize = copyByte(arscArray, startIndex, 2 + tempLen);
+//                stringByteLen = (byteStringSize[3] & 0xFF) | (byteStringSize[2] & 0x0F) << 8;
+//            }
+//            if (0 != stringByteLen) {
+//                String val = "";
+//                try {
+//                    byte[] byteTemp = copyByte(arscArray, startIndex + 2 + tempLen, stringByteLen);
+//                    val = new String(byteTemp, "UTF-8");
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+//                strings.add(val);
+//            } else {
+//                strings.add("");
+//            }
+//            startIndex += (stringByteLen + 3 + tempLen);
+//            index++;
+//        }
+//        resTableStringPool.stringList = strings;
+//        return resTableStringPool;
+//    }
 
 }
 
