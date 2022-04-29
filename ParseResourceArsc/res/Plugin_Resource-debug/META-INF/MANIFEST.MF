@@ -1,0 +1,88 @@
+Manifest-Version: 1.0
+Built-By: Signflinger
+Created-By: Android Gradle 7.1.2
+
+Name: AndroidManifest.xml
+SHA-256-Digest: le0b6YR7+kjg9NpnZBQVluqcbl8YCA56Im7l9lf2nPI=
+
+Name: META-INF/com/android/build/gradle/app-metadata.properties
+SHA-256-Digest: ThvkrxPodHZkhvkDqe7tDrkMNztYJ/OumvNxgVxCMTc=
+
+Name: classes.dex
+SHA-256-Digest: sK+n/eirEp7ujZi2cn3ATFK8HgvgvqrigU36lITsUgU=
+
+Name: classes2.dex
+SHA-256-Digest: hQKKWk6e7gB2jUAj+PeHiylLLtMi+RGV+MXIPOdE91w=
+
+Name: res/anim/uikit_anim_bottom_in.xml
+SHA-256-Digest: eqmJfydwQUTODx4ZBjG7d+EQurQL21bItFGkndr1j1c=
+
+Name: res/anim/uikit_anim_bottom_out.xml
+SHA-256-Digest: trWeiCxLzTEpBocr0ArEpL8jX8UvuRrhigdMpYReivU=
+
+Name: res/anim/uikit_anim_left_in.xml
+SHA-256-Digest: PqgrBNMpQC4fKEwSGwxCZL9C+vqCac1qCMZlh7S1QnM=
+
+Name: res/anim/uikit_anim_left_out.xml
+SHA-256-Digest: K8NuSBLnftEZ6HLSsFutf+uoNGEOeX1JfAxFGX2cCJ8=
+
+Name: res/anim/uikit_anim_right_in.xml
+SHA-256-Digest: jD0sYChwGafz/e9DOwe8h40kidjXA2bav6/tgAxQToI=
+
+Name: res/anim/uikit_anim_right_out.xml
+SHA-256-Digest: xcUlDKBpPmrgLtyFjRGI6yQVagNxSTKyyOaRpWIngfk=
+
+Name: res/anim/uikit_anim_top_in.xml
+SHA-256-Digest: IczebBiBxdlA/U4bTPfmvI/NSYbYu5Ot1Qt1p8BMZ/8=
+
+Name: res/anim/uikit_anim_top_out.xml
+SHA-256-Digest: kGXe2V9zp8xHqMrrNiuSK1XUnzLwc9btPzyT+8LcOKs=
+
+Name: res/anim/uikit_dialog_from_bottom.xml
+SHA-256-Digest: m2eHgPvhdUtnjyVlEeEvHM3LQIz0e4IZC4A5aWtB6O8=
+
+Name: res/anim/uikit_dialog_from_right.xml
+SHA-256-Digest: dbA7I8KSvBNQAj4o6r6ovI7+FgOPV28iT0HFe89EIXo=
+
+Name: res/anim/uikit_dialog_no_animation.xml
+SHA-256-Digest: 0PXmPWGtBFXockN0wEuTrRPjHjpxD4CS1w4DU/y0Mpk=
+
+Name: res/anim/uikit_dialog_out_to_bottom.xml
+SHA-256-Digest: qNkRhQWHS7E544rZwMeYq6+3WlY/l/VVnKHLBqB58NQ=
+
+Name: res/anim/uikit_dialog_out_to_right.xml
+SHA-256-Digest: RnFbdhyHJk1dbHG13KPot6l4tUYwlA7H3SWzPzkRQ1U=
+
+Name: res/anim/uikit_pop_from_bottom.xml
+SHA-256-Digest: uWC+h1Y/Gs/x78SKt9CIswwBhjAjjNY7nVT1b7sgc8Q=
+
+Name: res/anim/uikit_pop_from_top.xml
+SHA-256-Digest: fwv97Y6c7j0J1ZQtDZ46/k9wgGyqcDCuc5KiCy/fr9U=
+
+Name: res/anim/uikit_pop_to_bottom.xml
+SHA-256-Digest: CZC5Igot2SgnHJuugC4G0jlDrPigLgUYSjeN57RyrDU=
+
+Name: res/anim/uikit_pop_to_top.xml
+SHA-256-Digest: Rm3Ytfep82fqfLnQGJgHiK8iOWrevxsmxAPZ4XVQGmE=
+
+Name: res/anim/uikit_push_bottom_in.xml
+SHA-256-Digest: bHGmqe8TG87qXGOurd2cfXJY7rFcxoli/XEMxDdcMFM=
+
+Name: res/anim/uikit_push_bottom_out.xml
+SHA-256-Digest: Cu0Vf5iij/2loCQTHPK3HJXrofUj840cvqLlAFb4Oc4=
+
+Name: res/mipmap-xxhdpi-v4/logo.png
+SHA-256-Digest: CIqKVrJQw/T/8rkYEtkwkVv4RvZComgDGJH04J7ZLK8=
+
+Name: res/xml/provider_paths.xml
+SHA-256-Digest: iDME9YAXMUznHbJEiIDf+ClkbIMHEB3tfDMlxdpvd68=
+
+Name: res/xml/select_pic_file_paths.xml
+SHA-256-Digest: 9s07yeSRLkE3+iYROBVOBmGlmApgGVDUeGsZQ9HYPfo=
+
+Name: res/xml/update_app_file_paths.xml
+SHA-256-Digest: hjhMKJwRXh/+cL+iZMLyMdfNrB6JEicek6PRApq04Ok=
+
+Name: resources.arsc
+SHA-256-Digest: oi/R0LLkDgTQq8iqb01Fif/kTImCZBp8B9OSVhCvOuY=
+

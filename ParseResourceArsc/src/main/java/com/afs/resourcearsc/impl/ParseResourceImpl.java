@@ -78,11 +78,14 @@ public class ParseResourceImpl implements IParseResource {
 
         ResTableStringPool resTableStringPool = null;
         if (ResTableStringPoolHeader.UTF8_FLAG == resTableStringPoolHeader.flags) {
-            resTableStringPool = parseResTableStringPoolStrListByUTF_8(arscArray, offSet + resTableStringPoolHeader.stringsStart, resTableStringPoolHeader.stringCount
-                    , offSet + resTableStringPoolHeader.stylesStart, resTableStringPoolHeader.styleCount);
+            resTableStringPool = parseResTableStringPoolStrListByUTF_8(arscArray, offSet, resTableStringPoolHeader.stringsStart, resTableStringPoolHeader.stringCount);
         } else {
-            resTableStringPool = parseResTableStringPoolStrListByUTF_16(arscArray, offSet + resTableStringPoolHeader.stringsStart, resTableStringPoolHeader.stringCount
-                    , offSet + resTableStringPoolHeader.stylesStart, resTableStringPoolHeader.styleCount);
+            resTableStringPool = parseResTableStringPoolStrListByUTF_16(arscArray, offSet, resTableStringPoolHeader.stringsStart, resTableStringPoolHeader.stringCount);
+        }
+        if (resTableStringPoolHeader.stylesStart != 0) {
+            startIndex = offSet + resTableStringPoolHeader.stylesStart;
+            int styLen = resTableStringPoolHeader.header.size - resTableStringPoolHeader.stylesStart;
+            resTableStringPoolHeader.byteStringOffSet = copyByte(arscArray, startIndex, styLen);
         }
         resTableStringPool.stringPoolHeader = resTableStringPoolHeader;
         return resTableStringPool;
@@ -222,14 +225,12 @@ public class ParseResourceImpl implements IParseResource {
      * @param arscArray
      * @param stringsStart
      * @param stringCount
-     * @param styleStart
-     * @param styleCount
      * @return
      */
-    private ResTableStringPool parseResTableStringPoolStrListByUTF_16(byte[] arscArray, int stringsStart, int stringCount, int styleStart, int styleCount) {
+    private ResTableStringPool parseResTableStringPoolStrListByUTF_16(byte[] arscArray, int offSet, int stringsStart, int stringCount) {
         //解析ChunkHeader
         ResTableStringPool resTableStringPool = new ResTableStringPool();
-        int startIndex = stringsStart;
+        int startIndex = offSet + stringsStart;
         //字符串
         ArrayList<String> strings = new ArrayList<String>();
         int index = 0;
@@ -250,29 +251,6 @@ public class ParseResourceImpl implements IParseResource {
             startIndex += (stringStringLen + 4);
             index++;
         }
-        resTableStringPool.stringList = strings;
-        //样式串
-        startIndex = styleStart;
-        ArrayList<String> styles = new ArrayList<String>();
-        index = 0;
-        while (index < styleCount) {
-            byte[] byteStyleSize = copyByte(arscArray, startIndex, 2);
-            int stringStyleLen = Byte2ObjectUtil.byteArray2Int_Little_Endian(byteStyleSize) * 2;
-            if (0 != stringStyleLen) {
-                String val = "";
-                try {
-                    val = new String(copyByte(arscArray, startIndex + 2, stringStyleLen), "UTF-8");
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                strings.add(val);
-            } else {
-                strings.add("");
-            }
-            startIndex += (stringStyleLen + 4);
-            index++;
-        }
-        resTableStringPool.styleList = styles;
         return resTableStringPool;
     }
 
@@ -282,26 +260,30 @@ public class ParseResourceImpl implements IParseResource {
      * @param arscArray
      * @param stringsStart
      * @param stringCount
-     * @param styleStart
-     * @param styleCount
      * @return
      */
-    private ResTableStringPool parseResTableStringPoolStrListByUTF_8(byte[] arscArray, int stringsStart, int stringCount, int styleStart, int styleCount) {
+    private ResTableStringPool parseResTableStringPoolStrListByUTF_8(byte[] arscArray, int offSet, int stringsStart, int stringCount) {
         //解析ChunkHeader
         ResTableStringPool resTableStringPool = new ResTableStringPool();
-        int startIndex = stringsStart;
+        int startIndex = offSet + stringsStart;
         //字符串
         ArrayList<String> strings = new ArrayList<String>();
         int index = 0;
         while (index < stringCount) {
             byte[] byteStringSize = copyByte(arscArray, startIndex, 2);
-            //20 = 0x14 = 1_0100
-            //127 = 0x7F = 0111_1111
-            int stringByteLen = (byteStringSize[1] & 0x7F);
+            int stringByteFlag = (byteStringSize[0] & 0xFF);
+            int stringByteLen = (byteStringSize[1] & 0xFF);
+            int tempLen = 0;
+            if (stringByteFlag >= 128) {
+                tempLen = 2;
+                byteStringSize = copyByte(arscArray, startIndex, 2 + tempLen);
+                stringByteLen = (byteStringSize[3] & 0xFF) | (byteStringSize[2] & 0x0F) << 8;
+            }
             if (0 != stringByteLen) {
                 String val = "";
                 try {
-                    val = new String(copyByte(arscArray, startIndex + 2, stringByteLen), "UTF-8");
+                    byte[] byteTemp = copyByte(arscArray, startIndex + 2 + tempLen, stringByteLen);
+                    val = new String(byteTemp, "UTF-8");
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -309,34 +291,10 @@ public class ParseResourceImpl implements IParseResource {
             } else {
                 strings.add("");
             }
-            startIndex += (stringByteLen + 3);
+            startIndex += (stringByteLen + 3 + tempLen);
             index++;
         }
         resTableStringPool.stringList = strings;
-        //样式串
-        startIndex = styleStart;
-        ArrayList<String> styles = new ArrayList<String>();
-        index = 0;
-        while (index < styleCount) {
-            byte[] byteStyleSize = copyByte(arscArray, startIndex, 2);
-            //20 = 0x14 = 1_0100
-            //127 = 0x7F = 0111_1111
-            int styleByteLen = (byteStyleSize[1] & 0x7F);
-            if (0 != styleByteLen) {
-                String val = "";
-                try {
-                    val = new String(copyByte(arscArray, startIndex + 2, styleByteLen), "UTF-8");
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                styles.add(val);
-            } else {
-                styles.add("");
-            }
-            startIndex += (styleByteLen + 3);
-            index++;
-        }
-        resTableStringPool.styleList = styles;
         return resTableStringPool;
     }
 

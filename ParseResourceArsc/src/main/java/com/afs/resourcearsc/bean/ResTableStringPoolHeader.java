@@ -37,7 +37,7 @@ public class ResTableStringPoolHeader implements IObjToBytes {
      */
     public int stylesStart;
     /**
-     * 字符串偏移数组和Style偏移数组的总长度
+     * 字符串偏移数组和Style偏移数组的数据
      */
     public byte[] byteStringOffSet;
 
