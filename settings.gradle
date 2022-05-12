@@ -1,20 +1,15 @@
-pluginManagement {
-    repositories {
-        gradlePluginPortal()
-        google()
-        mavenCentral()
-    }
-}
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
         google()
+        jcenter()
         mavenCentral()
     }
+
 }
 rootProject.name = "Android0203_Plugin_ResourceApplication"
 include ':app'
 include ':Plugin_Resource'
 include ':Plugin_Tools'
-include ':ParseResourceArsc'
-include ':Plugin_ResourceArsc'
+include ':Plugin_ResourceArsc02'
+include ':Plugin_ResourceArsc01'

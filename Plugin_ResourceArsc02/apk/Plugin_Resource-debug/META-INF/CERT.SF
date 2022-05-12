@@ -1,0 +1,32 @@
+Signature-Version: 1.0
+Created-By: Android Gradle 7.1.2
+SHA-256-Digest-Manifest: k8q6oF2ku1cMlnMw6dY1STPabtErQHYq/95Awa6Gw1o=
+X-Android-APK-Signed: 2
+
+Name: AndroidManifest.xml
+SHA-256-Digest: 6avABa/2lY+6y+inMPAKXFPkjbGChkLJq1cdwsEHgas=
+
+Name: META-INF/com/android/build/gradle/app-metadata.properties
+SHA-256-Digest: w0w606DKFR5jxFPrv9Z0EhNXtv8EOz7lxsz/Ak79Zsk=
+
+Name: classes.dex
+SHA-256-Digest: 8ieIkJfHZjxPRq87n/AwsIhw1Ri3IehmSp31KAaen1g=
+
+Name: classes2.dex
+SHA-256-Digest: E4wxZA3I5lAkUJQsn97K5lsAltNzRf1UiSpvquEbeoA=
+
+Name: res/mipmap-xxhdpi-v4/logo.png
+SHA-256-Digest: ye4/hxS2z6leki2YhHkpvfPXmPqf1397/2E1E+Jsxeg=
+
+Name: res/xml/provider_paths.xml
+SHA-256-Digest: ZpkCAjQfq5WAkBWmmGBArN9NykhsistDrvcjfnEUiYI=
+
+Name: res/xml/select_pic_file_paths.xml
+SHA-256-Digest: Xa534RkrBeoHfbns8rAtejxYmWBHAB7E/F3XTUZxTD4=
+
+Name: res/xml/update_app_file_paths.xml
+SHA-256-Digest: x43Q3CF6SrB8X/K/PLRPhICvj70J7GoDeMkB41zADK0=
+
+Name: resources.arsc
+SHA-256-Digest: GnXWO021znCouD476qnJNGwC/ds+hd7nptgALoIt14k=
+

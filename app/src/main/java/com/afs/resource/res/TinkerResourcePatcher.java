@@ -37,7 +37,7 @@ import java.util.Map;
  * Created by zhangshaowen on 16/9/21.
  * Thanks for Android Fragmentation
  */
-class TinkerResourcePatcher {
+public class TinkerResourcePatcher {
     private static final String TAG = "Tinker.ResourcePatcher";
     private static final String TEST_ASSETS_VALUE = "only_use_to_test_tinker_resource.txt";
 //    private static final String MIUI_RESOURCE_CLASSNAME = "android.content.res.MiuiResources";

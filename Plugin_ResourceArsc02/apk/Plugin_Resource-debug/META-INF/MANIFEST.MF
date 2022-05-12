@@ -1,0 +1,31 @@
+Manifest-Version: 1.0
+Built-By: Signflinger
+Created-By: Android Gradle 7.1.2
+
+Name: AndroidManifest.xml
+SHA-256-Digest: 7rlwuAh1RGyRMyotEV0fZMmUxosnrsumPM25BxaKo3s=
+
+Name: META-INF/com/android/build/gradle/app-metadata.properties
+SHA-256-Digest: ThvkrxPodHZkhvkDqe7tDrkMNztYJ/OumvNxgVxCMTc=
+
+Name: classes.dex
+SHA-256-Digest: L0Vii/M4UdpT/QH2k78SJqKRzZLkf4EktSJXTOSQIFg=
+
+Name: classes2.dex
+SHA-256-Digest: hQKKWk6e7gB2jUAj+PeHiylLLtMi+RGV+MXIPOdE91w=
+
+Name: res/mipmap-xxhdpi-v4/logo.png
+SHA-256-Digest: CIqKVrJQw/T/8rkYEtkwkVv4RvZComgDGJH04J7ZLK8=
+
+Name: res/xml/provider_paths.xml
+SHA-256-Digest: iDME9YAXMUznHbJEiIDf+ClkbIMHEB3tfDMlxdpvd68=
+
+Name: res/xml/select_pic_file_paths.xml
+SHA-256-Digest: 9s07yeSRLkE3+iYROBVOBmGlmApgGVDUeGsZQ9HYPfo=
+
+Name: res/xml/update_app_file_paths.xml
+SHA-256-Digest: hjhMKJwRXh/+cL+iZMLyMdfNrB6JEicek6PRApq04Ok=
+
+Name: resources.arsc
+SHA-256-Digest: zxtRXXBA2JJ2XL83tCk3oRonKBfXFzBg6cNldqa3Yzo=
+
